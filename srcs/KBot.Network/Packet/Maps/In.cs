@@ -46,7 +46,7 @@ namespace KBot.Network.Packet.Maps
             EntityType entityType = content[0].ToEnum<EntityType>();
             int startIndex = entityType == EntityType.Player ? 3 : 2;
 
-            In packet = new In
+            var packet = new In
             {
                 EntityType = entityType,
                 Name = entityType == EntityType.Player ? content[1] : string.Empty,

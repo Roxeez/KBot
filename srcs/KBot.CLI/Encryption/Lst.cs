@@ -8,7 +8,7 @@ namespace KBot.CLI.Encryption
     {
         public static byte[] Decrypt(byte[] array)
         {
-            List<byte> result = new List<byte>();
+            var result = new List<byte>();
             if (array.Length > 0)
             {
                 int lines = BitConverter.ToInt32(array.Take(4).ToArray(), 0);

@@ -10,8 +10,8 @@ namespace KBot.CLI.Openers
     {
         public static IEnumerable<ZlibFile> Open(string path)
         {
-            List<ZlibFile> files = new List<ZlibFile>();
-            using (BinaryReader reader = new BinaryReader(File.OpenRead(path)))
+            var files = new List<ZlibFile>();
+            using (var reader = new BinaryReader(File.OpenRead(path)))
             {
                 byte[] header = reader.ReadBytes(0x10);
                 int count = reader.ReadInt32();

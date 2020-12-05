@@ -23,7 +23,7 @@ namespace KBot.Network.Packet.Group
         
         public IPacket Create(string[] content)
         {
-            List<PInitSub> subs = new List<PInitSub>();
+            var subs = new List<PInitSub>();
             foreach (string value in content.Skip(1))
             {
                 string[] data = value.Split('|');

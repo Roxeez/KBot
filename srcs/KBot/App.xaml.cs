@@ -75,7 +75,7 @@ namespace KBot
                 networkManager.Process(session, typedPacket);
             };
 
-            MainWindow window = new MainWindow
+            var window = new MainWindow
             {
                 DataContext = new MainWindowContext(session)
             };

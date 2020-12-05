@@ -28,7 +28,7 @@ namespace KBot.Network.Packet.Group
             int mapId = content[0].ToInt();
             int count = content[1].ToInt();
 
-            PtCtlSub[] pets = new PtCtlSub[count];
+            var pets = new PtCtlSub[count];
             for (int i = 0; i < count; i++)
             {
                 int index = (i * 3) + 2;

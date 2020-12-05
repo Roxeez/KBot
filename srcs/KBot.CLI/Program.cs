@@ -72,7 +72,7 @@ namespace KBot.CLI
                 version = FileManager.Load<string>("db/version");
             }
             
-            FileVersionInfo versionInfo = FileVersionInfo.GetVersionInfo("NostaleClientX.exe");
+            var versionInfo = FileVersionInfo.GetVersionInfo("NostaleClientX.exe");
             if (versionInfo.FileVersion == version && !parameters.Contains("--force"))
             {
                 Log.Information($"Database is already up to date ({version})");

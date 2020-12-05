@@ -11,7 +11,7 @@ namespace KBot.Network.Processor.Maps
         {
             Map map = session.Character.Map;
 
-            Portal portal = new Portal
+            var portal = new Portal
             {
                 Id = packet.Id,
                 DestinationId = packet.DestinationId,

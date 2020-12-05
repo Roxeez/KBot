@@ -37,7 +37,7 @@ namespace KBot.CLI.Processor.Text
                 .TrimLines()
                 .GetContent();
             
-            Dictionary<int, MonsterData> monsters = new Dictionary<int, MonsterData>();
+            var monsters = new Dictionary<int, MonsterData>();
             IEnumerable<TextRegion> monsterRegions = monsterContent.GetRegions("VNUM");
             foreach (TextRegion region in monsterRegions)
             {
@@ -60,7 +60,7 @@ namespace KBot.CLI.Processor.Text
                 .TrimLines()
                 .GetContent();
             
-            Dictionary<int, ItemData> items = new Dictionary<int, ItemData>();
+            var items = new Dictionary<int, ItemData>();
             IEnumerable<TextRegion> itemRegions = itemContent.GetRegions("VNUM");
             foreach (TextRegion region in itemRegions)
             {
@@ -81,7 +81,7 @@ namespace KBot.CLI.Processor.Text
                 .TrimLines()
                 .GetContent();
             
-            Dictionary<int, SkillData> skills = new Dictionary<int, SkillData>();
+            var skills = new Dictionary<int, SkillData>();
             IEnumerable<TextRegion> skillRegions = skillContent.GetRegions("VNUM");
             foreach (TextRegion region in skillRegions)
             {
@@ -118,7 +118,7 @@ namespace KBot.CLI.Processor.Text
                 .TrimLines()
                 .GetContent();
             
-            Dictionary<int, MapData> maps = new Dictionary<int, MapData>();
+            var maps = new Dictionary<int, MapData>();
             foreach (TextLine line in mapContent.Lines)
             {
                 int firstMapId = line.GetValue<int>(0);

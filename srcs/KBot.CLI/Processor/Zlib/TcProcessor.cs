@@ -25,8 +25,8 @@ namespace KBot.CLI.Processor.Zlib
             Dictionary<int, MapData> data = manager.Load<Dictionary<int, MapData>>(Database.MapPath);
             
             Log.Information("Generating map grids");
-            Dictionary<int, byte[]> grids = files.ToDictionary(x => x.Id, x => x.Content);
-            foreach(var pair in data)
+            var grids = files.ToDictionary(x => x.Id, x => x.Content);
+            foreach(KeyValuePair<int, MapData> pair in data)
             {
                 byte[] grid = grids.GetValue(pair.Key);
                 if (grid == null)

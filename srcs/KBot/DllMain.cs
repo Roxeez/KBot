@@ -36,7 +36,7 @@ namespace KBot
             };
             
             Log.Debug("Starting app thread");
-            Thread thread = new Thread(() =>
+            var thread = new Thread(() =>
             {
                 App app = services.GetRequiredService<App>();
 

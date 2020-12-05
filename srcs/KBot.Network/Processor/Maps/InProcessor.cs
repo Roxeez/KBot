@@ -55,7 +55,7 @@ namespace KBot.Network.Processor.Maps
                     break;
                 
                 case EntityType.Player:
-                    Player player = new Player
+                    var player = new Player
                     {
                         Id = packet.EntityId,
                         Gender = packet.Player.Gender,

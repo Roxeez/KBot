@@ -39,7 +39,7 @@ namespace KBot.CLI.Processor.Text
                 .SplitLineContent('\t')
                 .GetContent();
             
-            Dictionary<string, string> monsters = new Dictionary<string, string>();
+            var monsters = new Dictionary<string, string>();
             foreach (TextLine line in monsterContent.Lines)
             {
                 monsters[line.GetFirstValue()] = line.GetLastValue();
@@ -53,7 +53,7 @@ namespace KBot.CLI.Processor.Text
                 .SplitLineContent('\t')
                 .GetContent();
             
-            Dictionary<string, string> items = new Dictionary<string, string>();
+            var items = new Dictionary<string, string>();
             foreach (TextLine line in itemContent.Lines)
             {
                 items[line.GetFirstValue()] = line.GetLastValue();
@@ -67,7 +67,7 @@ namespace KBot.CLI.Processor.Text
                 .SplitLineContent('\t')
                 .GetContent();
 
-            Dictionary<string, string> skills = new Dictionary<string, string>();
+            var skills = new Dictionary<string, string>();
             foreach (TextLine line in skillContent.Lines)
             {
                 skills[line.GetFirstValue()] = line.GetLastValue();
@@ -81,7 +81,7 @@ namespace KBot.CLI.Processor.Text
                 .SplitLineContent('\t')
                 .GetContent();
 
-            Dictionary<string, string> maps = new Dictionary<string, string>();
+            var maps = new Dictionary<string, string>();
             foreach (TextLine line in mapContent.Lines)
             {
                 maps[line.GetFirstValue()] = line.GetLastValue();

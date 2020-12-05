@@ -11,8 +11,8 @@ namespace KBot.CLI.Openers
     {
         public static IEnumerable<TextFile> Open(string path)
         {
-            List<TextFile> files = new List<TextFile>();
-            using (BinaryReader reader = new BinaryReader(File.OpenRead(path)))
+            var files = new List<TextFile>();
+            using (var reader = new BinaryReader(File.OpenRead(path)))
             {
                 int count = reader.ReadInt32();
 
