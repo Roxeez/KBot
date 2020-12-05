@@ -1,6 +1,6 @@
 ﻿using KBot.Common.Extension;
 
-namespace KBot.Network.Packet.Player
+namespace KBot.Network.Packet.Characters
 {
     public class Stat : IPacket
     {

@@ -1,6 +1,6 @@
-﻿using KBot.Extension;
+﻿using KBot.Common.Extension;
 
-namespace KBot.Networking.Packet.Maps
+namespace KBot.Network.Packet.Maps
 {
     public class CMap : IPacket
     {

@@ -9,7 +9,7 @@ using KBot.Common;
 using KBot.Common.Logging;
 using KBot.Data;
 
-namespace KBot.CLI.Processor
+namespace KBot.CLI.Processor.Text
 {
     public class GtdProcessor : TextFileProcessor
     {
@@ -26,14 +26,15 @@ namespace KBot.CLI.Processor
         {
             TextFile monster = files.First(x => x.Name == "monster.dat");
             TextFile item = files.First(x => x.Name == "Item.dat");
+            TextFile skill = files.First(x => x.Name == "Skill.dat");
             TextFile map = files.First(x => x.Name == "MapIDData.dat");
             
-            Log.Information($"Generating {Database.MonsterPath}");
+            Log.Information("Generating monsters");
             TextContent monsterContent = TextReader.FromString(Encoding.Default.GetString(monster.Content))
-                .TrimLines()
                 .SkipCommentedLines("#")
-                .SplitLineContent('\r')
                 .SkipEmptyLines()
+                .SplitLineContent('\t')
+                .TrimLines()
                 .GetContent();
             
             Dictionary<int, MonsterData> monsters = new Dictionary<int, MonsterData>();
@@ -51,12 +52,12 @@ namespace KBot.CLI.Processor
                 };
             }
             
-            Log.Information($"Generating {Database.ItemPath}");
+            Log.Information("Generating items");
             TextContent itemContent = TextReader.FromString(Encoding.Default.GetString(item.Content))
-                .TrimLines()
                 .SkipCommentedLines("#")
-                .SplitLineContent('\r')
                 .SkipEmptyLines()
+                .SplitLineContent('\t')
+                .TrimLines()
                 .GetContent();
             
             Dictionary<int, ItemData> items = new Dictionary<int, ItemData>();
@@ -72,7 +73,43 @@ namespace KBot.CLI.Processor
                 };
             }
             
-            Log.Information($"Generating {Database.MapPath}");
+            Log.Information("Generating skills");
+            TextContent skillContent = TextReader.FromString(Encoding.Default.GetString(skill.Content))
+                .SkipCommentedLines("#")
+                .SkipEmptyLines()
+                .SplitLineContent('\t')
+                .TrimLines()
+                .GetContent();
+            
+            Dictionary<int, SkillData> skills = new Dictionary<int, SkillData>();
+            IEnumerable<TextRegion> skillRegions = skillContent.GetRegions("VNUM");
+            foreach (TextRegion region in skillRegions)
+            {
+                TextLine vnumLine = region.GetLine("VNUM");
+                TextLine nameLine = region.GetLine("NAME");
+                TextLine typeLine = region.GetLine("TYPE");
+                TextLine dataLine = region.GetLine("DATA");
+                TextLine targetLine = region.GetLine("TARGET");
+
+                int id = vnumLine.GetValue<int>(1);
+
+                skills[id] = new SkillData
+                {
+                    NameKey = nameLine.GetValue(1),
+                    Category = typeLine.GetValue<int>(1),
+                    CastId = typeLine.GetValue<int>(2),
+                    CastTime = dataLine.GetValue<int>(5),
+                    Cooldown = dataLine.GetValue<int>(6),
+                    MpCost = dataLine.GetValue<int>(7),
+                    Target = targetLine.GetValue<int>(1),
+                    HitType = targetLine.GetValue<int>(2),
+                    Range = targetLine.GetValue<short>(3),
+                    ZoneRange = targetLine.GetValue<short>(4),
+                    Type = targetLine.GetValue<int>(5)
+                };
+            }
+            
+            Log.Information("Generating maps");
             TextContent mapContent = TextReader.FromString(Encoding.Default.GetString(map.Content))
                 .SkipLines(x => x.StartsWith("DATA"))
                 .SkipCommentedLines("#")
@@ -98,13 +135,16 @@ namespace KBot.CLI.Processor
                 }
             }
             
-            Log.Information($"Saving {Database.MonsterPath} with {monsters.Count} monsters");
+            Log.Information($"Saving {monsters.Count} monsters into {Database.MonsterPath}");
             manager.Save(monsters, Database.MonsterPath);
             
-            Log.Information($"Saving {Database.ItemPath} with {items.Count} items");
+            Log.Information($"Saving {items.Count} items into {Database.ItemPath}");
             manager.Save(items, Database.ItemPath);
             
-            Log.Information($"Saving {Database.MapPath} with {maps.Count} maps");
+            Log.Information($"Saving {skills.Count} skills into {Database.SkillPath}");
+            manager.Save(skills, Database.SkillPath);
+            
+            Log.Information($"Saving {maps.Count} maps into {Database.MapPath}");
             manager.Save(maps, Database.MapPath);
         }
     }

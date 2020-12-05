@@ -1,9 +1,9 @@
 ﻿using System.Linq;
-using KBot.Extension;
+using KBot.Common.Extension;
 using KBot.Game;
 using KBot.Game.Enum;
 
-namespace KBot.Networking.Packet.Maps
+namespace KBot.Network.Packet.Maps
 {
     public class In : IPacket
     {
@@ -32,6 +32,9 @@ namespace KBot.Networking.Packet.Maps
         public Job Job { get; set; }
         public int HpPercentage { get; set; }
         public int MpPercentage { get; set; }
+        
+        public int Level { get; set; }
+        public int HeroLevel { get; set; }
     }
 
     public class InCreator : IPacketCreator
@@ -49,7 +52,7 @@ namespace KBot.Networking.Packet.Maps
                 Name = entityType == EntityType.Player ? content[1] : string.Empty,
                 ModelId = entityType != EntityType.Player ? content[1].ToInt() : 0,
                 EntityId = content[startIndex].ToLong(),
-                Position = new Position(content[startIndex + 1].ToInt(), content[startIndex + 2].ToInt()),
+                Position = new Position(content[startIndex + 1].ToShort(), content[startIndex + 2].ToShort()),
                 Direction = entityType != EntityType.MapObject ? content[startIndex + 3].ToInt() : 0
             };
 
@@ -72,7 +75,9 @@ namespace KBot.Networking.Packet.Maps
                         Gender = specialInfo[1].ToEnum<Gender>(),
                         Job = specialInfo[4].ToEnum<Job>(),
                         HpPercentage = specialInfo[6].ToInt(),
-                        MpPercentage = specialInfo[7].ToInt()
+                        MpPercentage = specialInfo[7].ToInt(),
+                        Level = specialInfo[25].ToInt(),
+                        HeroLevel = specialInfo[31].ToInt()
                     };
                     break;
                 case EntityType.MapObject:

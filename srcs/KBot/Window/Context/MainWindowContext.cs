@@ -3,7 +3,7 @@ using KBot.Game;
 using KBot.Game.Entities;
 using PropertyChanged;
 
-namespace KBot.UI.Context
+namespace KBot.Window.Context
 {
     [AddINotifyPropertyChangedInterface]
     public class MainWindowContext

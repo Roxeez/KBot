@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace KBot.Extension
+namespace KBot.Common.Extension
 {
     public static class DictionaryExtensions
     {

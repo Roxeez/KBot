@@ -2,6 +2,7 @@
 {
     public interface IFileProcessor
     {
-        
+        string Path { get; }
+        void Process();
     }
 }

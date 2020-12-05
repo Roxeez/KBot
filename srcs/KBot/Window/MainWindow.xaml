@@ -1,22 +1,32 @@
-﻿<Window x:Class="KBot.UI.MainWindow"
+﻿<Window x:Class="KBot.Window.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:ctx="clr-namespace:KBot.UI.Context"
-        xmlns:local="clr-namespace:KBot"
+        xmlns:ctx="clr-namespace:KBot.Window.Context"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525"
+        Title="KBot"
+        ResizeMode="CanMinimize"
+        WindowStartupLocation="CenterScreen"
+        SizeToContent="Height"
+        Width="525"
         d:DataContext="{d:DesignInstance ctx:MainWindowContext}">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <GroupBox Grid.Row="0" Header="Character" Padding="10">
+        <GroupBox Grid.Column="0" Header="Character" Padding="10">
             <StackPanel>
-                <Grid>
+                <TextBlock Text="{Binding Character.Id, StringFormat={}Id: {0}}"></TextBlock>
+                <TextBlock Text="{Binding Character.Name, StringFormat={}Name: {0}}"></TextBlock>
+                <TextBlock Text="{Binding Character.Level, StringFormat={}Level: {0}}"></TextBlock>
+                <TextBlock Text="{Binding Character.Job, StringFormat={}Job: {0}}"></TextBlock>
+                <TextBlock Text="{Binding Character.Position, StringFormat={}Position: {0}}"></TextBlock>
+                <Grid Margin="0 10 0 0">
                     <ProgressBar Height="25" Minimum="0" Maximum="100" Value="{Binding Character.HpPercentage, Mode=OneWay}" Foreground="Green"></ProgressBar>
                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">
                         <TextBlock.Text>
@@ -40,7 +50,33 @@
                 </Grid>
             </StackPanel>
         </GroupBox>
-        <GroupBox Grid.Row="1" Header="Map" Padding="10" Margin="0 10 0 0">
+        <Grid Grid.Row="1" Margin="0 10 0 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <GroupBox Grid.Column="0" Header="Partner" Padding="10" Margin="0 0 5 0">
+                <StackPanel>
+                    <TextBlock Text="{Binding Character.Partner.Entity.Id, StringFormat={}Id: {0}}"></TextBlock>
+                    <TextBlock Text="{Binding Character.Partner.Entity.Name, StringFormat={}Name: {0}}"></TextBlock>
+                    <TextBlock Text="{Binding Character.Partner.Entity.Level, StringFormat={}Level: {0}}"></TextBlock>
+                    <TextBlock Text="{Binding Character.Partner.Entity.Position, StringFormat={}Position: {0}}"></TextBlock>
+                    <ProgressBar Margin="0 10 0 0" Height="25" Minimum="0" Maximum="100" Value="{Binding Character.Partner.Entity.HpPercentage, Mode=OneWay}" Foreground="Green"></ProgressBar>
+                    <ProgressBar Margin="0 10 0 0" Height="25" Minimum="0" Maximum="100" Value="{Binding Character.Partner.Entity.MpPercentage, Mode=OneWay}" Foreground="DodgerBlue"></ProgressBar>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Grid.Column="1" Header="Pet" Padding="10" Margin="5 0 0 0">
+                <StackPanel>
+                    <TextBlock Text="{Binding Character.Pet.Entity.Id, StringFormat={}Id: {0}}"></TextBlock>
+                    <TextBlock Text="{Binding Character.Pet.Entity.Name, StringFormat={}Name: {0}}"></TextBlock>
+                    <TextBlock Text="{Binding Character.Pet.Entity.Level, StringFormat={}Level: {0}}"></TextBlock>
+                    <TextBlock Text="{Binding Character.Pet.Entity.Position, StringFormat={}Position: {0}}"></TextBlock>
+                    <ProgressBar Margin="0 10 0 0" Height="25" Minimum="0" Maximum="100" Value="{Binding Character.Pet.Entity.HpPercentage, Mode=OneWay}" Foreground="Green"></ProgressBar>
+                    <ProgressBar Margin="0 10 0 0" Height="25" Minimum="0" Maximum="100" Value="{Binding Character.Pet.Entity.MpPercentage, Mode=OneWay}" Foreground="DodgerBlue"></ProgressBar>
+                </StackPanel>
+            </GroupBox>
+        </Grid>
+        <GroupBox Grid.Row="2" Header="Map" Padding="10" Margin="0 10 0 0">
             <StackPanel>
                 <TextBlock Text="{Binding Character.Map.Id, StringFormat={}Id: {0}}"></TextBlock>
                 <TextBlock Text="{Binding Character.Map.Name, StringFormat={}Name: {0}}"></TextBlock>

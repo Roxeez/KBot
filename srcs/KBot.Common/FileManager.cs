@@ -16,12 +16,31 @@ namespace KBot.Common
                 Formatting = Formatting.Indented
             };
         }
-        
+
+        public bool HasFile(string name)
+        {
+            return File.Exists(Path.Combine(folder, name));
+        }
+
+        public void Delete(string name)
+        {
+            string path = Path.Combine(folder, name);
+            if (Directory.Exists(path))
+            {
+                Directory.Delete(path, true);
+            }
+            
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+        }
+
         public T Load<T>(string name) where T : class
         {
             if (!Directory.Exists(folder))
             {
-                Directory.CreateDirectory(folder);
+                throw new InvalidOperationException($"Can't found file {name}");
             }
 
             string path = Path.Combine(folder, name);
@@ -44,6 +63,13 @@ namespace KBot.Common
             }
             
             string path = Path.Combine(folder, name);
+            string parent = Directory.GetParent(path).FullName;
+            
+            if (!Directory.Exists(parent))
+            {
+                Directory.CreateDirectory(parent);
+            }
+            
             using (TextWriter stream = new StreamWriter(File.Create(path)))
             {
                 serializer.Serialize(stream, obj);

@@ -8,6 +8,8 @@ namespace KBot.Game.Entities
         
         public int HpPercentage { get; set; }
         public int MpPercentage { get; set; }
+        
+        public int Speed { get; set; }
 
         public bool IsAlive => HpPercentage > 0;
     }

@@ -3,9 +3,9 @@ using KBot.Game;
 using KBot.Game.Entities;
 using KBot.Game.Extension;
 using KBot.Game.Maps;
-using KBot.Network.Packet.Maps;
+using KBot.Network.Packet.Entities;
 
-namespace KBot.Network.Processor.Maps
+namespace KBot.Network.Processor.Entities
 {
     public class MvProcessor : PacketProcessor<Mv>
     {

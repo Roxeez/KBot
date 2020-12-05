@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using KBot.Extension;
+using KBot.Common.Extension;
 
-namespace KBot.Networking.Packet
+namespace KBot.Network.Packet
 {
     public sealed class PacketFactory
     {

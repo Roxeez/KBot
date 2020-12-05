@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Spark.Database.Reader
+namespace KBot.CLI.Reader
 {
     public class TextRegion
     {

@@ -3,8 +3,8 @@
     public enum HitType
     {
         TargetOnly = 0,
-        EnemiesInZone = 1,
-        AlliesInZone = 2,
-        SpecialArea = 3
+        EnemiesInRange = 1,
+        AlliesInRange = 2,
+        Special = 3
     }
 }

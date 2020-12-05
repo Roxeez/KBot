@@ -1,6 +1,6 @@
 ﻿namespace KBot.Game.Enum
 {
-    public enum TargetType
+    public enum SkillTarget
     {
         Target = 0,
         Self = 1,

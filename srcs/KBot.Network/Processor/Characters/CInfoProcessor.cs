@@ -1,9 +1,9 @@
 ﻿using KBot.Common.Logging;
 using KBot.Game;
 using KBot.Game.Entities;
-using KBot.Networking.Packet.Player;
+using KBot.Network.Packet.Characters;
 
-namespace KBot.Networking.Processor.Characters
+namespace KBot.Network.Processor.Characters
 {
     public class CInfoProcessor : PacketProcessor<CInfo>
     {
@@ -15,7 +15,7 @@ namespace KBot.Networking.Processor.Characters
             character.Name = packet.Name;
             character.Gender = packet.Gender;
             character.Job = packet.Job;
-            
+
             Log.Debug("Character basic information successfully set");
         }
     }

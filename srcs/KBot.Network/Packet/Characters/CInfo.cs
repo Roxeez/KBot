@@ -1,7 +1,7 @@
 ﻿using KBot.Common.Extension;
 using KBot.Game.Enum;
 
-namespace KBot.Network.Packet.Player
+namespace KBot.Network.Packet.Characters
 {
     public class CInfo : IPacket
     {

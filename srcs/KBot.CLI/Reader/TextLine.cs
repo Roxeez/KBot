@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Spark.Database.Reader
+namespace KBot.CLI.Reader
 {
     public class TextLine
     {

@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using PropertyChanged;
 
 namespace KBot.Common.Collection
 {
-    [SuppressPropertyChangedWarnings]
     public sealed class ObservableDictionary<TKey, TValue> : IDictionary<TKey, TValue>, INotifyPropertyChanged, INotifyCollectionChanged
     {
         private readonly IDictionary<TKey, TValue> dictionary;

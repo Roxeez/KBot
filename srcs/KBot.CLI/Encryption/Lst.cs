@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace KBot.CLI.Core.Encryption
+namespace KBot.CLI.Encryption
 {
     public static class Lst
     {

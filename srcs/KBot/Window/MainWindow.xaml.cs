@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace KBot.UI
+namespace KBot.Window
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

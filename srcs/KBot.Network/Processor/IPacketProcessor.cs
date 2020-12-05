@@ -1,8 +1,8 @@
 ﻿using System;
 using KBot.Game;
-using KBot.Networking.Packet;
+using KBot.Network.Packet;
 
-namespace KBot.Networking.Processor
+namespace KBot.Network.Processor
 {
     public interface IPacketProcessor
     {

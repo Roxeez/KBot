@@ -1,9 +1,10 @@
-﻿namespace KBot.Data.Language
+﻿namespace KBot.Data.Translation
 {
     public enum TranslationCategory
     {
         Monster,
         Item,
         Map,
+        Skill
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace KBot.CLI.Core.Encryption
+namespace KBot.CLI.Encryption
 {
     public static class Dat
     {

@@ -1,7 +1,7 @@
-﻿namespace KBot.Game.Data
+﻿namespace KBot.Data
 {
     public class ItemData
     {
-        
+        public string NameKey { get; set; }
     }
 }

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using KBot.CLI.Core.Encryption;
-using KBot.CLI.Core.Files;
+using KBot.CLI.Encryption;
+using KBot.CLI.Files;
 
-namespace KBot.CLI.Core.Openers
+namespace KBot.CLI.Openers
 {
     public static class TextOpener
     {
@@ -37,8 +37,6 @@ namespace KBot.CLI.Core.Openers
                     
                     files.Add(new TextFile
                     {
-                        Index = index,
-                        IsDat = dat,
                         Name = name,
                         Content = decrypted
                     });

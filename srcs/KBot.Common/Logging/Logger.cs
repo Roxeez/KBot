@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using Serilog;
 
 namespace KBot.Common.Logging
@@ -7,13 +8,18 @@ namespace KBot.Common.Logging
     {
         private readonly ILogger logger;
 
-        public Logger()
+        public Logger(string name)
         {
             logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
                 .WriteTo.Console()
-                .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day)
+                .WriteTo.File($"KBot/logs/{name}.txt", rollingInterval: RollingInterval.Day)
                 .CreateLogger();
+        }
+
+        public void Trace(string message)
+        {
+            logger.Verbose(message);
         }
         
         public void Debug(string message)
@@ -29,6 +35,11 @@ namespace KBot.Common.Logging
         public void Warning(string message)
         {
             logger.Warning(message);
+        }
+
+        public void Error(string message)
+        {
+            logger.Error(message);
         }
 
         public void Error(string message, Exception exception)

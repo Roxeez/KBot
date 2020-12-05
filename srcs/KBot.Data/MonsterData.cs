@@ -1,4 +1,4 @@
-﻿namespace KBot.Game.Data
+﻿namespace KBot.Data
 {
     public class MonsterData
     {

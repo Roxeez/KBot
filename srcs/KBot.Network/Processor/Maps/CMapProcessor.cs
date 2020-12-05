@@ -2,11 +2,10 @@
 using KBot.Common.Logging;
 using KBot.Game;
 using KBot.Game.Entities;
-using KBot.Game.Factory;
 using KBot.Game.Maps;
-using KBot.Networking.Packet.Maps;
+using KBot.Network.Packet.Maps;
 
-namespace KBot.Networking.Processor.Maps
+namespace KBot.Network.Processor.Maps
 {
     public class CMapProcessor : PacketProcessor<CMap>
     {
@@ -26,7 +25,7 @@ namespace KBot.Networking.Processor.Maps
             character.Map = map;
             character.Map.Players[character.Id] = character;
             
-            Log.Debug("Map successfully changed.");
+            Log.Debug($"Map changed to {map.Id}");
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Spark.Database.Reader
+namespace KBot.CLI.Reader
 {
     public class TextReader
     {

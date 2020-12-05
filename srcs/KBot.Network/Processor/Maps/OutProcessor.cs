@@ -1,16 +1,19 @@
 ﻿using System;
 using KBot.Common.Logging;
 using KBot.Game;
+using KBot.Game.Entities;
 using KBot.Game.Enum;
+using KBot.Game.Extension;
 using KBot.Game.Maps;
-using KBot.Networking.Packet.Maps;
+using KBot.Network.Packet.Maps;
 
-namespace KBot.Networking.Processor.Maps
+namespace KBot.Network.Processor.Maps
 {
     public class OutProcessor : PacketProcessor<Out>
     {
         protected override void Process(GameSession session, Out packet)
         {
+            Character character = session.Character;
             Map map = session.Character.Map;
             
             switch (packet.EntityType)
@@ -30,7 +33,7 @@ namespace KBot.Networking.Processor.Maps
                 default:
                     return;
             }
-            
+
             Log.Debug($"Entity {packet.EntityType} with ID {packet.EntityId} removed from map");
         }
     }

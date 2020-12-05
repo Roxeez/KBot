@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <ProjectGuid>{DCA45DC4-4AC2-4B07-A434-86E7C1952283}</ProjectGuid>
+        <OutputType>Library</OutputType>
+        <AppDesignerFolder>Properties</AppDesignerFolder>
+        <RootNamespace>KBot.Network</RootNamespace>
+        <AssemblyName>KBot.Network</AssemblyName>
+        <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+        <FileAlignment>512</FileAlignment>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+        <OutputPath>bin\Debug\</OutputPath>
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <DebugType>pdbonly</DebugType>
+        <Optimize>true</Optimize>
+        <OutputPath>bin\Release\</OutputPath>
+        <DefineConstants>TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
+          <HintPath>..\..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.5.0.0\lib\net461\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="mscorlib" />
+        <Reference Include="System" />
+        <Reference Include="System.Core" />
+        <Reference Include="System.Data" />
+        <Reference Include="System.Xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="Extension\ServiceCollectionExtensions.cs" />
+        <Compile Include="NetworkManager.cs" />
+        <Compile Include="Packet\Battle\Die.cs" />
+        <Compile Include="Packet\Battle\Sr.cs" />
+        <Compile Include="Packet\Battle\Su.cs" />
+        <Compile Include="Packet\Characters\Lev.cs" />
+        <Compile Include="Packet\Characters\Ski.cs" />
+        <Compile Include="Packet\Characters\Walk.cs" />
+        <Compile Include="Packet\Entities\Mv.cs" />
+        <Compile Include="Packet\Group\PetSki.cs" />
+        <Compile Include="Packet\Group\PInit.cs" />
+        <Compile Include="Packet\Group\PSki.cs" />
+        <Compile Include="Packet\Group\PtCtl.cs" />
+        <Compile Include="Packet\IPacket.cs" />
+        <Compile Include="Packet\Maps\CMap.cs" />
+        <Compile Include="Packet\Maps\Gp.cs" />
+        <Compile Include="Packet\Maps\In.cs" />
+        <Compile Include="Packet\Maps\Out.cs" />
+        <Compile Include="Packet\PacketFactory.cs" />
+        <Compile Include="Packet\Characters\CInfo.cs" />
+        <Compile Include="Packet\Characters\Ncif.cs" />
+        <Compile Include="Packet\Characters\Stat.cs" />
+        <Compile Include="Packet\UndefinedPacket.cs" />
+        <Compile Include="Processor\Battle\DieProcessor.cs" />
+        <Compile Include="Processor\Battle\SrProcessor.cs" />
+        <Compile Include="Processor\Battle\SuProcessor.cs" />
+        <Compile Include="Processor\Characters\CInfoProcessor.cs" />
+        <Compile Include="Processor\Characters\LevProcessor.cs" />
+        <Compile Include="Processor\Characters\SkiProcessor.cs" />
+        <Compile Include="Processor\Characters\StatProcessor.cs" />
+        <Compile Include="Processor\Characters\WalkProcessor.cs" />
+        <Compile Include="Processor\Entities\MvProcessor.cs" />
+        <Compile Include="Processor\Group\PetSkiProcessor.cs" />
+        <Compile Include="Processor\Group\PInitProcessor.cs" />
+        <Compile Include="Processor\Group\PSkiProcessor.cs" />
+        <Compile Include="Processor\Group\PtCtlProcessor.cs" />
+        <Compile Include="Processor\IPacketProcessor.cs" />
+        <Compile Include="Processor\Maps\CMapProcessor.cs" />
+        <Compile Include="Processor\Maps\GpProcessor.cs" />
+        <Compile Include="Processor\Maps\InProcessor.cs" />
+        <Compile Include="Processor\Maps\OutProcessor.cs" />
+        <Compile Include="Properties\AssemblyInfo.cs" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\KBot.Common\KBot.Common.csproj">
+        <Project>{dda0ed0d-4218-406f-8251-b05229e831c4}</Project>
+        <Name>KBot.Common</Name>
+      </ProjectReference>
+      <ProjectReference Include="..\KBot.Data\KBot.Data.csproj">
+        <Project>{c7a4775f-2d22-4c74-8749-9fe170e5063b}</Project>
+        <Name>KBot.Data</Name>
+      </ProjectReference>
+      <ProjectReference Include="..\KBot.Game\KBot.Game.csproj">
+        <Project>{f36cb6de-21c3-4028-912a-521d3b9ee883}</Project>
+        <Name>KBot.Game</Name>
+      </ProjectReference>
+    </ItemGroup>
+    <ItemGroup>
+      <None Include="packages.config" />
+    </ItemGroup>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+    <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+         Other similar extension points exist, see Microsoft.Common.targets.
+    <Target Name="BeforeBuild">
+    </Target>
+    <Target Name="AfterBuild">
+    </Target>
+    -->
+
+</Project>

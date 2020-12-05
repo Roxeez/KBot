@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using KBot.Extension;
+using KBot.Common.Extension;
 using KBot.Game;
-using KBot.Networking.Packet;
-using KBot.Networking.Processor;
+using KBot.Network.Packet;
+using KBot.Network.Processor;
 
-namespace KBot.Networking
+namespace KBot.Network
 {
     public class NetworkManager
     {

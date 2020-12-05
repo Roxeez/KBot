@@ -1,7 +1,7 @@
-﻿using KBot.Extension;
+﻿using KBot.Common.Extension;
 using KBot.Game.Enum;
 
-namespace KBot.Networking.Packet.Maps
+namespace KBot.Network.Packet.Maps
 {
     public class Out : IPacket
     {

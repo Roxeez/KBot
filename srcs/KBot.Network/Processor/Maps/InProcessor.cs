@@ -2,11 +2,10 @@
 using KBot.Game;
 using KBot.Game.Entities;
 using KBot.Game.Enum;
-using KBot.Game.Factory;
 using KBot.Game.Maps;
-using KBot.Networking.Packet.Maps;
+using KBot.Network.Packet.Maps;
 
-namespace KBot.Networking.Processor.Maps
+namespace KBot.Network.Processor.Maps
 {
     public class InProcessor : PacketProcessor<In>
     {
@@ -38,7 +37,7 @@ namespace KBot.Networking.Processor.Maps
                     Npc npc = entityFactory.CreateNpc(packet.ModelId);
 
                     npc.Id = packet.EntityId;
-                    npc.Name = packet.Npc.Name;
+                    npc.Name = packet.Npc.Name == "-" || packet.Npc.Name == "@" ? npc.Name : packet.Npc.Name;
                     npc.Position = packet.Position;
                     npc.HpPercentage = packet.Npc.HpPercentage;
                     npc.MpPercentage = packet.Npc.MpPercentage;
@@ -63,7 +62,10 @@ namespace KBot.Networking.Processor.Maps
                         Job = packet.Player.Job,
                         HpPercentage = packet.Player.HpPercentage,
                         MpPercentage = packet.Player.MpPercentage,
-                        Position = packet.Position
+                        Position = packet.Position,
+                        Name = packet.Name,
+                        Level = packet.Player.Level,
+                        HeroLevel = packet.Player.HeroLevel
                     };
 
                     player.Map = map;

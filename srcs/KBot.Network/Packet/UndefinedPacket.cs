@@ -1,4 +1,4 @@
-﻿namespace KBot.Networking.Packet
+﻿namespace KBot.Network.Packet
 {
     public class UndefinedPacket : IPacket
     {

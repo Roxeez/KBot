@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace KBot.Extension
+namespace KBot.Common.Extension
 {
     /// <summary>
     ///     Contains some extension method used for easily convert string to selected value
@@ -142,9 +142,9 @@ namespace KBot.Extension
         /// <param name="value">string value to convert</param>
         /// <typeparam name="T">Enum type</typeparam>
         /// <returns>parsed value as selected enum type</returns>
-        public static T ToEnum<T>(this string value) where T : System.Enum
+        public static T ToEnum<T>(this string value) where T : Enum
         {
-            return (T)System.Enum.Parse(typeof(T), value);
+            return (T)Enum.Parse(typeof(T), value);
         }
 
         public static Guid ToGuid(this string value)

@@ -2,7 +2,7 @@
 using KBot.Game;
 using KBot.Game.Enum;
 
-namespace KBot.Network.Packet.Maps
+namespace KBot.Network.Packet.Entities
 {
     public class Mv : IPacket
     {
