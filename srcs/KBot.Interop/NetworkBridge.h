@@ -1,7 +1,4 @@
 #pragma once
-#include "NostaleString.h"
-#include "UnmanagedNetwork.h";
-
 namespace KBot
 {
 	namespace Interop

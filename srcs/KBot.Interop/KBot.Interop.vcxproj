@@ -125,11 +125,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="Character.cpp" />
     <ClCompile Include="CharacterBridge.cpp" />
+    <ClCompile Include="Logger.cpp" />
+    <ClCompile Include="LoggerBridge.cpp" />
     <ClCompile Include="Module.cpp" />
     <ClCompile Include="NetworkBridge.cpp" />
-    <ClCompile Include="UnmanachedCharacter.cpp" />
-    <ClCompile Include="UnmanagedNetwork.cpp" />
+    <ClCompile Include="Network.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -138,11 +140,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CharacterBridge.h" />
+    <ClInclude Include="Logger.h" />
+    <ClInclude Include="LoggerBridge.h" />
     <ClInclude Include="Module.h" />
     <ClInclude Include="NetworkBridge.h" />
     <ClInclude Include="NostaleString.h" />
-    <ClInclude Include="UnmanagedCharacter.h" />
-    <ClInclude Include="UnmanagedNetwork.h" />
+    <ClInclude Include="Character.h" />
+    <ClInclude Include="Network.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

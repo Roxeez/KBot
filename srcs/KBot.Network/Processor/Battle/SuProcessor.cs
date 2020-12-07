@@ -4,7 +4,7 @@ using KBot.Game;
 using KBot.Game.Entities;
 using KBot.Game.Extension;
 using KBot.Game.Maps;
-using KBot.Game.Skills;
+using KBot.Game.Battle;
 using KBot.Network.Packet.Battle;
 
 namespace KBot.Network.Processor.Battle
@@ -35,7 +35,7 @@ namespace KBot.Network.Processor.Battle
 
             target.HpPercentage = packet.HpPercentage > 100 ? 100 : packet.HpPercentage;
 
-            if (!target.IsAlive)
+            if (!packet.IsTargetAlive)
             {
                 target.HpPercentage = 0;
                 map.RemoveEntity(target);

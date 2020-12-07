@@ -1,4 +1,5 @@
-﻿using KBot.Game.Entities;
+using System.Linq;
+using KBot.Game.Entities;
 using KBot.Game.Enum;
 using KBot.Game.Maps;
 
@@ -30,6 +31,11 @@ namespace KBot.Game.Extension
                 default:
                     return;
             }
+        }
+
+        public static bool HasEntity(this Map map, EntityType entityType, long entityId)
+        {
+            return map.Entities.Any(x => x.EntityType == entityType && x.Id == entityId);
         }
     }
 }

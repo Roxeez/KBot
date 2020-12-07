@@ -16,6 +16,7 @@ namespace KBot.Network.Packet.Maps
         
         public InNpc Npc { get; set; }
         public InPlayer Player { get; set; }
+        public InMapObject MapObject { get; set; }
     }
 
     public class InNpc
@@ -35,6 +36,13 @@ namespace KBot.Network.Packet.Maps
         
         public int Level { get; set; }
         public int HeroLevel { get; set; }
+    }
+
+    public class InMapObject
+    {
+        public int Amount { get; set; }
+        public bool IsQuestRelative { get; set; }
+        public long Owner { get; set; }
     }
 
     public class InCreator : IPacketCreator
@@ -81,6 +89,12 @@ namespace KBot.Network.Packet.Maps
                     };
                     break;
                 case EntityType.MapObject:
+                    packet.MapObject = new InMapObject
+                    {
+                        Amount = specialInfo[0].ToInt(),
+                        IsQuestRelative = specialInfo[1].ToBool(),
+                        Owner = specialInfo[2].ToLong()
+                    };
                     break;
             }
 

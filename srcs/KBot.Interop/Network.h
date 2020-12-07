@@ -6,10 +6,10 @@
 
 typedef void(__stdcall* PacketCallback)(const char* packet);
 
-class UnmanagedNetwork
+class Network
 {
 private:
-	static UnmanagedNetwork* instance;
+	static Network* instance;
 
 	DWORD recv;
 	DWORD send;
@@ -18,7 +18,7 @@ private:
 	PacketCallback sendCallback;
 	PacketCallback recvCallback;
 
-	UnmanagedNetwork();
+	Network();
 
 	static void OnPacketReceived();
 
@@ -37,5 +37,5 @@ public:
 
 	void SetRecvCallback(PacketCallback callback);
 
-	static UnmanagedNetwork* GetInstance();
+	static Network* GetInstance();
 };

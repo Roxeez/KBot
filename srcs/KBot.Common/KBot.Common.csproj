@@ -61,8 +61,10 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Collection\ObservableDictionary.cs" />
+        <Compile Include="Collection\ObservableSet.cs" />
         <Compile Include="Extension\ConverterExtensions.cs" />
         <Compile Include="Extension\DictionaryExtensions.cs" />
+        <Compile Include="Extension\MathExtensions.cs" />
         <Compile Include="Extension\ServiceCollectionExtensions.cs" />
         <Compile Include="FileManager.cs" />
         <Compile Include="Logging\Log.cs" />

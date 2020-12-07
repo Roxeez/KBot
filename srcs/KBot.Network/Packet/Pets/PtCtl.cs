@@ -4,11 +4,10 @@ using KBot.Common.Extension;
 using KBot.Game;
 using KBot.Game.Enum;
 
-namespace KBot.Network.Packet.Group
+namespace KBot.Network.Packet.Pets
 {
     public class PtCtl : IPacket
     {
-        public int MapId { get; set; }
         public PtCtlSub[] Pets { get; set; }
         public int Speed { get; set; }
     }
@@ -25,7 +24,6 @@ namespace KBot.Network.Packet.Group
         
         public IPacket Create(string[] content)
         {
-            int mapId = content[0].ToInt();
             int count = content[1].ToInt();
 
             var pets = new PtCtlSub[count];
@@ -41,7 +39,6 @@ namespace KBot.Network.Packet.Group
 
             return new PtCtl
             {
-                MapId = mapId,
                 Pets = pets,
                 Speed = content.Last().ToInt()
             };

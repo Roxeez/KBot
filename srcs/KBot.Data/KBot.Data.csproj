@@ -43,6 +43,7 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="BuffData.cs" />
         <Compile Include="Database.cs" />
         <Compile Include="DatabaseException.cs" />
         <Compile Include="Extension\ServiceCollectionExtensions.cs" />

@@ -2,7 +2,7 @@
 using KBot.Data.Translation;
 using KBot.Game.Enum;
 
-namespace KBot.Game.Skills
+namespace KBot.Game.Battle
 {
     public class SkillFactory
     {

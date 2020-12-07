@@ -21,11 +21,8 @@ namespace KBot.Game.Maps
         {
             MapData data = database.GetMapData(mapId);
             string name = languageService.GetTranslation(TranslationCategory.Map, data.NameKey);
-            
-            return new Map(mapId, data.Grid)
-            {
-                Name = name
-            };
+
+            return new Map(mapId, name, data.Grid);
         }
     }
 }

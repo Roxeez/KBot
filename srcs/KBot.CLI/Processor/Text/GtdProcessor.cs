@@ -28,6 +28,7 @@ namespace KBot.CLI.Processor.Text
             TextFile item = files.First(x => x.Name == "Item.dat");
             TextFile skill = files.First(x => x.Name == "Skill.dat");
             TextFile map = files.First(x => x.Name == "MapIDData.dat");
+            TextFile card = files.First(x => x.Name == "Card.dat");
             
             Log.Information("Generating monsters");
             TextContent monsterContent = TextReader.FromString(Encoding.Default.GetString(monster.Content))
@@ -109,6 +110,36 @@ namespace KBot.CLI.Processor.Text
                 };
             }
             
+            Log.Information("Generating buffs");
+            TextContent cardContent = TextReader.FromString(Encoding.Default.GetString(card.Content))
+                .SkipCommentedLines("#")
+                .SkipEmptyLines()
+                .SplitLineContent('\t')
+                .TrimLines()
+                .GetContent();
+            
+            var buffs = new Dictionary<int, BuffData>();
+            IEnumerable<TextRegion> cardRegions = cardContent.GetRegions("VNUM");
+            foreach (TextRegion region in cardRegions)
+            {
+                TextLine vnumLine = region.GetLine("VNUM");
+                TextLine nameLine = region.GetLine("NAME");
+                TextLine groupLine = region.GetLine("GROUP");
+                TextLine styleLine = region.GetLine("STYLE");
+
+                int id = vnumLine.GetValue<int>(1);
+                string nameKey = nameLine.GetValue(1);
+
+                buffs[id] = new BuffData
+                {
+                    NameKey = nameKey,
+                    GroupId = groupLine.GetValue<int>(1),
+                    Level = groupLine.GetValue<int>(2),
+                    Category = styleLine.GetValue<int>(1),
+                    Effect = styleLine.GetValue<int>(2),
+                };
+            }
+            
             Log.Information("Generating maps");
             TextContent mapContent = TextReader.FromString(Encoding.Default.GetString(map.Content))
                 .SkipLines(x => x.StartsWith("DATA"))
@@ -143,6 +174,9 @@ namespace KBot.CLI.Processor.Text
             
             Log.Information($"Saving {skills.Count} skills into {Database.SkillPath}");
             manager.Save(skills, Database.SkillPath);
+            
+            Log.Information($"Saving {buffs.Count} buffs into {Database.BuffPath}");
+            manager.Save(buffs, Database.BuffPath);
             
             Log.Information($"Saving {maps.Count} maps into {Database.MapPath}");
             manager.Save(maps, Database.MapPath);

@@ -16,7 +16,7 @@ namespace KBot.Network.Processor.Battle
             LivingEntity entity = map.GetEntity<LivingEntity>(packet.EntityType, packet.EntityId);
             if (entity == null)
             {
-                Log.Warning($"Can't found entity {packet.EntityType} with ID {packet.EntityId} to make it die");
+                Log.Warning($"Can't found entity {packet.EntityType} with ID {packet.EntityId} when processing die");
                 return;
             }
 

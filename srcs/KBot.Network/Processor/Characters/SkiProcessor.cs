@@ -3,7 +3,7 @@ using KBot.Common.Logging;
 using KBot.Game;
 using KBot.Game.Entities;
 using KBot.Game.Enum;
-using KBot.Game.Skills;
+using KBot.Game.Battle;
 using KBot.Network.Packet.Characters;
 
 namespace KBot.Network.Processor.Characters

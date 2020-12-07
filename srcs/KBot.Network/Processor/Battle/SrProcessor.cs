@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using KBot.Common.Logging;
 using KBot.Game;
-using KBot.Game.Skills;
+using KBot.Game.Battle;
 using KBot.Network.Packet.Battle;
 
 namespace KBot.Network.Processor.Battle

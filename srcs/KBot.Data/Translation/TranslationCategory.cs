@@ -5,6 +5,7 @@
         Monster,
         Item,
         Map,
-        Skill
+        Skill,
+        Buff
     }
 }

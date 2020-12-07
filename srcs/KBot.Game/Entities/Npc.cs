@@ -3,14 +3,20 @@ using PropertyChanged;
 
 namespace KBot.Game.Entities
 {
+    /// <summary>
+    /// Represent a NPC
+    /// </summary>
     [AddINotifyPropertyChangedInterface]
     public class Npc : LivingEntity
     {
-        public int ModelId { get; set; }
+        /// <summary>
+        /// Model ID used by this npc
+        /// </summary>
+        public int ModelId { get; }
 
-        public Npc()
+        public Npc(long id, string name, int modelId) : base(id, EntityType.Monster, name)
         {
-            EntityType = EntityType.Npc;
+            ModelId = modelId;
         }
     }
 }

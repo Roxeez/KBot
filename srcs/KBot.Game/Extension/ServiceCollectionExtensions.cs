@@ -1,6 +1,7 @@
-﻿using KBot.Game.Entities;
+using KBot.Game.Entities;
+using KBot.Game.Inventories;
 using KBot.Game.Maps;
-using KBot.Game.Skills;
+using KBot.Game.Battle;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace KBot.Game.Extension
@@ -11,7 +12,9 @@ namespace KBot.Game.Extension
         {
             return services.AddSingleton<MapFactory>()
                 .AddSingleton<EntityFactory>()
-                .AddSingleton<SkillFactory>();
+                .AddSingleton<SkillFactory>()
+                .AddSingleton<ItemFactory>()
+                .AddSingleton<BuffFactory>();
         }
     }
 }

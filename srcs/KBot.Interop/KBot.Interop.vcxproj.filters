@@ -13,45 +13,72 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\Bridge">
+      <UniqueIdentifier>{5c288312-37ad-4488-999e-cf82f6bc7245}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Unmanaged">
+      <UniqueIdentifier>{42b4fc84-8f65-49c5-9d8d-fa975e3d472f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Bridge">
+      <UniqueIdentifier>{09dfa47a-5fcf-40de-84e9-8f10141b4370}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Unmanaged">
+      <UniqueIdentifier>{69f9cd7e-516a-486c-9eb5-a350e9c75d7b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="UnmanagedNetwork.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="Module.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="UnmanachedCharacter.cpp">
-      <Filter>Fichiers sources</Filter>
+    <ClCompile Include="CharacterBridge.cpp">
+      <Filter>Fichiers sources\Bridge</Filter>
+    </ClCompile>
+    <ClCompile Include="LoggerBridge.cpp">
+      <Filter>Fichiers sources\Bridge</Filter>
     </ClCompile>
     <ClCompile Include="NetworkBridge.cpp">
+      <Filter>Fichiers sources\Bridge</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="CharacterBridge.cpp">
-      <Filter>Fichiers sources</Filter>
+    <ClCompile Include="Character.cpp">
+      <Filter>Fichiers sources\Unmanaged</Filter>
+    </ClCompile>
+    <ClCompile Include="Logger.cpp">
+      <Filter>Fichiers sources\Unmanaged</Filter>
+    </ClCompile>
+    <ClCompile Include="Network.cpp">
+      <Filter>Fichiers sources\Unmanaged</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="UnmanagedNetwork.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="NostaleString.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="UnmanagedCharacter.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="NetworkBridge.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+    <ClInclude Include="LoggerBridge.h">
+      <Filter>Fichiers d%27en-tête\Bridge</Filter>
     </ClInclude>
     <ClInclude Include="CharacterBridge.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+      <Filter>Fichiers d%27en-tête\Bridge</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkBridge.h">
+      <Filter>Fichiers d%27en-tête\Bridge</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>Fichiers d%27en-tête\Unmanaged</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>Fichiers d%27en-tête\Unmanaged</Filter>
+    </ClInclude>
+    <ClInclude Include="Network.h">
+      <Filter>Fichiers d%27en-tête\Unmanaged</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

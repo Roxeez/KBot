@@ -30,6 +30,7 @@ namespace KBot.CLI.Processor.Text
             TextFile item = files.First(x => x.Name.Contains("Item"));
             TextFile skill = files.First(x => x.Name.Contains("Skill"));
             TextFile map = files.First(x => x.Name.Contains("MapIDData"));
+            TextFile card = files.First(x => x.Name.Contains("Card"));
             
             Log.Information("Generating monster translations");
             TextContent monsterContent = TextReader.FromString(Encoding.Default.GetString(monster.Content))
@@ -73,6 +74,20 @@ namespace KBot.CLI.Processor.Text
                 skills[line.GetFirstValue()] = line.GetLastValue();
             }
             
+            Log.Information("Generating buff translations");
+            TextContent cardContent = TextReader.FromString(Encoding.Default.GetString(card.Content))
+                .SkipCommentedLines("#")
+                .SkipEmptyLines()
+                .TrimLines()
+                .SplitLineContent('\t')
+                .GetContent();
+
+            var buffs = new Dictionary<string, string>();
+            foreach (TextLine line in cardContent.Lines)
+            {
+                buffs[line.GetFirstValue()] = line.GetLastValue();
+            }
+            
             Log.Information("Generating map translations");
             TextContent mapContent = TextReader.FromString(Encoding.Default.GetString(map.Content))
                 .SkipCommentedLines("#")
@@ -92,7 +107,8 @@ namespace KBot.CLI.Processor.Text
                 [TranslationCategory.Monster] = monsters,
                 [TranslationCategory.Map] = maps,
                 [TranslationCategory.Item] = items,
-                [TranslationCategory.Skill] = skills
+                [TranslationCategory.Skill] = skills,
+                [TranslationCategory.Buff] = buffs
             };
             
             Log.Information($"Saving {translations.Sum(x => x.Value.Count)} translations into {LanguageService.LanguagePath}/{language.ToString()}.json");

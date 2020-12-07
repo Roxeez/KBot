@@ -1,8 +1,11 @@
-﻿using KBot.Common.Logging;
+﻿using System.Linq;
+using KBot.Common.Logging;
 using KBot.Game;
 using KBot.Game.Entities;
 using KBot.Game.Enum;
+using KBot.Game.Extension;
 using KBot.Game.Maps;
+using KBot.Game.Pets;
 using KBot.Network.Packet.Maps;
 
 namespace KBot.Network.Processor.Maps
@@ -23,52 +26,55 @@ namespace KBot.Network.Processor.Maps
             switch (packet.EntityType)
             {
                 case EntityType.Monster:
-                    Monster monster = entityFactory.CreateMonster(packet.ModelId);
-
-                    monster.Id = packet.EntityId;
+                    Monster monster = entityFactory.CreateMonster(packet.ModelId, packet.EntityId);
+                    
                     monster.Position = packet.Position;
                     monster.HpPercentage = packet.Npc.HpPercentage;
                     monster.MpPercentage = packet.Npc.MpPercentage;
                     monster.Map = map;
+                    
                     monster.Map.Monsters[monster.Id] = monster;
                     break;
                 
                 case EntityType.Npc:
-                    Npc npc = entityFactory.CreateNpc(packet.ModelId);
-
-                    npc.Id = packet.EntityId;
-                    npc.Name = packet.Npc.Name == "-" || packet.Npc.Name == "@" ? npc.Name : packet.Npc.Name;
+                    Npc npc = entityFactory.CreateNpc(packet.ModelId, packet.EntityId, packet.Npc.Name);
+                    
                     npc.Position = packet.Position;
                     npc.HpPercentage = packet.Npc.HpPercentage;
                     npc.MpPercentage = packet.Npc.MpPercentage;
                     npc.Map = map;
+
                     npc.Map.Npcs[npc.Id] = npc;
                     break;
                 
                 case EntityType.MapObject:
-                    MapObject mapObject = entityFactory.CreateMapObject(packet.ModelId);
+                    MapObject mapObject = entityFactory.CreateMapObject(packet.ModelId, packet.EntityId, packet.MapObject.Amount);
+                    Player owner = map.GetEntity<Player>(EntityType.Player, packet.MapObject.Owner);
+                    if (owner == null)
+                    {
+                        Log.Debug($"Can't found owner of map object {mapObject.Id}");
+                    }
                     
-                    mapObject.Id = packet.EntityId;
                     mapObject.Position = packet.Position;
+                    mapObject.Owner = owner;
                     mapObject.Map = map;
+
                     mapObject.Map.MapObjects[mapObject.Id] = mapObject;
                     break;
                 
                 case EntityType.Player:
-                    var player = new Player
+                    var player = new Player(packet.EntityId, packet.Name)
                     {
-                        Id = packet.EntityId,
                         Gender = packet.Player.Gender,
                         Job = packet.Player.Job,
                         HpPercentage = packet.Player.HpPercentage,
                         MpPercentage = packet.Player.MpPercentage,
                         Position = packet.Position,
-                        Name = packet.Name,
                         Level = packet.Player.Level,
-                        HeroLevel = packet.Player.HeroLevel
+                        HeroLevel = packet.Player.HeroLevel,
+                        Map = map
                     };
 
-                    player.Map = map;
                     player.Map.Players[player.Id] = player;
                     break;
                 default:

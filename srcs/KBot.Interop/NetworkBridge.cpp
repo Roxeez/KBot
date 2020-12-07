@@ -1,5 +1,6 @@
 #include "NetworkBridge.h"
-#include "UnmanagedNetwork.h"
+#include "NostaleString.h"
+#include "Network.h"
 
 namespace KBot
 {
@@ -7,32 +8,32 @@ namespace KBot
 	{
 		NetworkBridge::NetworkBridge()
 		{
-			UnmanagedNetwork::GetInstance()->Attach();
+			Network::GetInstance()->Attach();
 		}
 
 		void NetworkBridge::SendPacket(String^ packet)
 		{
-			UnmanagedNetwork::GetInstance()->SendPacket(NostaleString(ConvertToCharArray(packet)).ToString());
+			Network::GetInstance()->SendPacket(NostaleString(ConvertToCharArray(packet)).ToString());
 		}
 
 		void NetworkBridge::RecvPacket(String^ packet)
 		{
-			UnmanagedNetwork::GetInstance()->RecvPacket(NostaleString(ConvertToCharArray(packet)).ToString());
+			Network::GetInstance()->RecvPacket(NostaleString(ConvertToCharArray(packet)).ToString());
 		}
 
 		void NetworkBridge::AddSendCallback(NetworkCallback^ callback)
 		{
-			UnmanagedNetwork::GetInstance()->SetSendCallback(static_cast<PacketCallback>(Marshal::GetFunctionPointerForDelegate(callback).ToPointer()));
+			Network::GetInstance()->SetSendCallback(static_cast<PacketCallback>(Marshal::GetFunctionPointerForDelegate(callback).ToPointer()));
 		}
 
 		void NetworkBridge::AddRecvCallback(NetworkCallback^ callback)
 		{
-			UnmanagedNetwork::GetInstance()->SetRecvCallback(static_cast<PacketCallback>(Marshal::GetFunctionPointerForDelegate(callback).ToPointer()));
+			Network::GetInstance()->SetRecvCallback(static_cast<PacketCallback>(Marshal::GetFunctionPointerForDelegate(callback).ToPointer()));
 		}
 
 		NetworkBridge::~NetworkBridge()
 		{
-			UnmanagedNetwork::GetInstance()->Detach();
+			Network::GetInstance()->Detach();
 		}
 	};
 };

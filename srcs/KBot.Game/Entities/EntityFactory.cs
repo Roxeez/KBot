@@ -1,8 +1,6 @@
-﻿using System;
-using KBot.Common.Logging;
-using KBot.Data;
+﻿using KBot.Data;
 using KBot.Data.Translation;
-using KBot.Game.Entities;
+using KBot.Game.Inventories;
 
 namespace KBot.Game.Entities
 {
@@ -10,49 +8,42 @@ namespace KBot.Game.Entities
     {
         private readonly Database database;
         private readonly LanguageService languageService;
+        private readonly ItemFactory itemFactory;
 
-        public EntityFactory(Database database, LanguageService languageService)
+        public EntityFactory(Database database, LanguageService languageService, ItemFactory itemFactory)
         {
             this.database = database;
             this.languageService = languageService;
+            this.itemFactory = itemFactory;
         }
         
-        public Monster CreateMonster(int modelId)
+        public Monster CreateMonster(int modelId, long entityId)
         {
             MonsterData data = database.GetMonsterData(modelId);
             string name = languageService.GetTranslation(TranslationCategory.Monster, data.NameKey);
             
-            return new Monster
+            return new Monster(entityId, name, modelId)
             {
-                Name = name,
-                Level = data.Level,
-                ModelId = modelId
+                Level = data.Level
             };
         }
 
-        public Npc CreateNpc(int modelId)
+        public Npc CreateNpc(int modelId, long entityId, string name)
         {
             MonsterData data = database.GetMonsterData(modelId);
-            string name = languageService.GetTranslation(TranslationCategory.Monster, data.NameKey);
+             
+            name = name == "@" || name == "-" ? languageService.GetTranslation(TranslationCategory.Monster, data.NameKey) : name;
             
-            return new Npc
+            return new Npc(entityId, name, modelId)
             {
-                Name = name,
-                Level = data.Level,
-                ModelId = modelId
+                Level = data.Level
             };
         }
 
-        public MapObject CreateMapObject(int modelId)
+        public MapObject CreateMapObject(int modelId, long entityId, int amount = 1)
         {
-            ItemData data = database.GetItemData(modelId);
-            string name = languageService.GetTranslation(TranslationCategory.Item, data.NameKey);
-            
-            return new MapObject
-            {
-                Name = name,
-                ModelId = modelId
-            };
+            Item item = itemFactory.CreateItem(modelId);
+            return new MapObject(entityId, new ItemStack(item, amount));
         }
     }
 }

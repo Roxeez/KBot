@@ -7,6 +7,7 @@ namespace KBot
 		{
 		public:
 			void Walk(short x, short y);
+            void PetWalk(short x, short y);
 		};
 	};
 };

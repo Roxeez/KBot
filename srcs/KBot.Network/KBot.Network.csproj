@@ -45,6 +45,7 @@
     <ItemGroup>
         <Compile Include="Extension\ServiceCollectionExtensions.cs" />
         <Compile Include="NetworkManager.cs" />
+        <Compile Include="Packet\Battle\Bf.cs" />
         <Compile Include="Packet\Battle\Die.cs" />
         <Compile Include="Packet\Battle\Sr.cs" />
         <Compile Include="Packet\Battle\Su.cs" />
@@ -52,10 +53,9 @@
         <Compile Include="Packet\Characters\Ski.cs" />
         <Compile Include="Packet\Characters\Walk.cs" />
         <Compile Include="Packet\Entities\Mv.cs" />
-        <Compile Include="Packet\Group\PetSki.cs" />
-        <Compile Include="Packet\Group\PInit.cs" />
-        <Compile Include="Packet\Group\PSki.cs" />
-        <Compile Include="Packet\Group\PtCtl.cs" />
+        <Compile Include="Packet\Inventories\Inv.cs" />
+        <Compile Include="Packet\Pets\PClear.cs" />
+        <Compile Include="Packet\Pets\PtCtl.cs" />
         <Compile Include="Packet\IPacket.cs" />
         <Compile Include="Packet\Maps\CMap.cs" />
         <Compile Include="Packet\Maps\Gp.cs" />
@@ -65,7 +65,10 @@
         <Compile Include="Packet\Characters\CInfo.cs" />
         <Compile Include="Packet\Characters\Ncif.cs" />
         <Compile Include="Packet\Characters\Stat.cs" />
+        <Compile Include="Packet\Pets\Scn.cs" />
+        <Compile Include="Packet\Pets\Scp.cs" />
         <Compile Include="Packet\UndefinedPacket.cs" />
+        <Compile Include="Processor\Battle\BfProcessor.cs" />
         <Compile Include="Processor\Battle\DieProcessor.cs" />
         <Compile Include="Processor\Battle\SrProcessor.cs" />
         <Compile Include="Processor\Battle\SuProcessor.cs" />
@@ -75,15 +78,16 @@
         <Compile Include="Processor\Characters\StatProcessor.cs" />
         <Compile Include="Processor\Characters\WalkProcessor.cs" />
         <Compile Include="Processor\Entities\MvProcessor.cs" />
-        <Compile Include="Processor\Group\PetSkiProcessor.cs" />
-        <Compile Include="Processor\Group\PInitProcessor.cs" />
-        <Compile Include="Processor\Group\PSkiProcessor.cs" />
-        <Compile Include="Processor\Group\PtCtlProcessor.cs" />
+        <Compile Include="Processor\Inventories\InvProcessor.cs" />
         <Compile Include="Processor\IPacketProcessor.cs" />
         <Compile Include="Processor\Maps\CMapProcessor.cs" />
         <Compile Include="Processor\Maps\GpProcessor.cs" />
         <Compile Include="Processor\Maps\InProcessor.cs" />
         <Compile Include="Processor\Maps\OutProcessor.cs" />
+        <Compile Include="Processor\Pets\PClearProcessor.cs" />
+        <Compile Include="Processor\Pets\PtCtlProcessor.cs" />
+        <Compile Include="Processor\Pets\ScnProcessor.cs" />
+        <Compile Include="Processor\Pets\ScpProcessor.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
     <ItemGroup>

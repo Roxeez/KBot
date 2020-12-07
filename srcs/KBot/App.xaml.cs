@@ -4,6 +4,8 @@ using KBot.Common.Logging;
 using KBot.Data;
 using KBot.Data.Translation;
 using KBot.Game;
+using KBot.Game.Enum;
+using KBot.Game.Extension;
 using KBot.Network;
 using KBot.Network.Packet;
 using KBot.Window;

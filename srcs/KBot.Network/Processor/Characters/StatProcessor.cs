@@ -1,4 +1,5 @@
-﻿using KBot.Common.Logging;
+﻿using KBot.Common.Extension;
+using KBot.Common.Logging;
 using KBot.Game;
 using KBot.Game.Entities;
 using KBot.Network.Packet.Characters;
@@ -16,8 +17,8 @@ namespace KBot.Network.Processor.Characters
             character.HpMaximum = packet.HpMaximum;
             character.MpMaximum = packet.MpMaximum;
 
-            character.HpPercentage = character.Hp == 0 || character.HpMaximum == 0 ? 0 : (character.Hp / character.HpMaximum) * 100;
-            character.MpPercentage = character.Mp == 0 || character.MpMaximum == 0 ? 0 : (character.Mp / character.MpMaximum) * 100;
+            character.HpPercentage = character.Hp.GetPercentage(character.HpMaximum);
+            character.MpPercentage = character.Mp.GetPercentage(character.MpMaximum);
             
             Log.Trace("Character hp/mp updated completed");
         }

@@ -1,8 +1,10 @@
-﻿<Window x:Class="KBot.Window.MainWindow"
+<Window x:Class="KBot.Window.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:enums="clr-namespace:KBot.Game.Enum;assembly=KBot.Game"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:ctx="clr-namespace:KBot.Window.Context"
         mc:Ignorable="d"
         Title="KBot"
@@ -11,80 +13,112 @@
         SizeToContent="Height"
         Width="525"
         d:DataContext="{d:DesignInstance ctx:MainWindowContext}">
-    <Grid Margin="10">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-        </Grid.RowDefinitions>
-        <GroupBox Grid.Column="0" Header="Character" Padding="10">
-            <StackPanel>
-                <TextBlock Text="{Binding Character.Id, StringFormat={}Id: {0}}"></TextBlock>
-                <TextBlock Text="{Binding Character.Name, StringFormat={}Name: {0}}"></TextBlock>
-                <TextBlock Text="{Binding Character.Level, StringFormat={}Level: {0}}"></TextBlock>
-                <TextBlock Text="{Binding Character.Job, StringFormat={}Job: {0}}"></TextBlock>
-                <TextBlock Text="{Binding Character.Position, StringFormat={}Position: {0}}"></TextBlock>
-                <Grid Margin="0 10 0 0">
-                    <ProgressBar Height="25" Minimum="0" Maximum="100" Value="{Binding Character.HpPercentage, Mode=OneWay}" Foreground="Green"></ProgressBar>
-                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <TextBlock.Text>
-                            <MultiBinding StringFormat="{}{0} / {1}">
-                                <Binding Path="Character.Hp"></Binding>
-                                <Binding Path="Character.HpMaximum"></Binding>
-                            </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
+    <Window.Resources>
+        <ObjectDataProvider x:Key="InventoryTypes" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="enums:InventoryType"></x:Type>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Window.Resources>
+    <TabControl>
+        <TabItem Header="Information">
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <GroupBox Grid.Column="0" Header="Character" Padding="10">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Margin="0 0 5 0">
+                            <TextBlock Text="{Binding Character.Id, StringFormat={}Id: {0}}"></TextBlock>
+                            <TextBlock Text="{Binding Character.Name, StringFormat={}Name: {0}}"></TextBlock>
+                            <TextBlock Text="{Binding Character.Level, StringFormat={}Level: {0}}"></TextBlock>
+                            <TextBlock Text="{Binding Character.Job, StringFormat={}Job: {0}}"></TextBlock>
+                            <TextBlock Text="{Binding Character.Position, StringFormat={}Position: {0}}"></TextBlock>
+                            <Grid Margin="0 10 0 0">
+                                <ProgressBar Height="25" Minimum="0" Maximum="100" Value="{Binding Character.HpPercentage, Mode=OneWay}" Foreground="Green"></ProgressBar>
+                                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}{0} / {1}">
+                                            <Binding Path="Character.Hp"></Binding>
+                                            <Binding Path="Character.HpMaximum"></Binding>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </Grid>
+                            <Grid Margin="0 10 0 0">
+                                <ProgressBar Height="25" Minimum="0" Maximum="100" Value="{Binding Character.MpPercentage, Mode=OneWay}" Foreground="DodgerBlue"></ProgressBar>
+                                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}{0} / {1}">
+                                            <Binding Path="Character.Mp"></Binding>
+                                            <Binding Path="Character.MpMaximum"></Binding>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </Grid>
+                        </StackPanel>
+                        <Grid Grid.Column="1" Margin="5 0 0 0">
+                            <ListBox ItemsSource="{Binding Character.Buffs}" DisplayMemberPath="Name"></ListBox>
+                        </Grid>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Inventory" Grid.Row="1" Padding="10" Margin="0 10 0 0">
+                    <StackPanel>
+                        <ComboBox ItemsSource="{Binding Character.Inventories.Values}" DisplayMemberPath="Type" SelectedItem="{Binding SelectedInventory}"></ComboBox>
+                        <ListBox Margin="0 10 0 0" MaxHeight="200" ItemsSource="{Binding Inventory}"/>
+                    </StackPanel>
+                </GroupBox>
+                <Grid Grid.Row="2" Margin="0 10 0 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <GroupBox Grid.Column="0" Header="Partner" Padding="10" Margin="0 0 5 0">
+                        <StackPanel>
+                            <TextBlock Text="{Binding Character.Partner.Id, StringFormat={}Id: {0}}"></TextBlock>
+                            <TextBlock Text="{Binding Character.Partner.Name, StringFormat={}Name: {0}}"></TextBlock>
+                            <TextBlock Text="{Binding Character.Partner.Level, StringFormat={}Level: {0}}"></TextBlock>
+                            <TextBlock Text="{Binding Character.Partner.Position, StringFormat={}Position: {0}}"></TextBlock>
+                            <ProgressBar Margin="0 10 0 0" Height="25" Minimum="0" Maximum="100" Value="{Binding Character.Partner.HpPercentage, Mode=OneWay}" Foreground="Green"></ProgressBar>
+                            <ProgressBar Margin="0 10 0 0" Height="25" Minimum="0" Maximum="100" Value="{Binding Character.Partner.MpPercentage, Mode=OneWay}" Foreground="DodgerBlue"></ProgressBar>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Grid.Column="1" Header="Pet" Padding="10" Margin="5 0 0 0">
+                        <StackPanel>
+                            <TextBlock Text="{Binding Character.Pet.Id, StringFormat={}Id: {0}}"></TextBlock>
+                            <TextBlock Text="{Binding Character.Pet.Name, StringFormat={}Name: {0}}"></TextBlock>
+                            <TextBlock Text="{Binding Character.Pet.Level, StringFormat={}Level: {0}}"></TextBlock>
+                            <TextBlock Text="{Binding Character.Pet.Position, StringFormat={}Position: {0}}"></TextBlock>
+                            <ProgressBar Margin="0 10 0 0" Height="25" Minimum="0" Maximum="100" Value="{Binding Character.Pet.HpPercentage, Mode=OneWay}" Foreground="Green"></ProgressBar>
+                            <ProgressBar Margin="0 10 0 0" Height="25" Minimum="0" Maximum="100" Value="{Binding Character.Pet.MpPercentage, Mode=OneWay}" Foreground="DodgerBlue"></ProgressBar>
+                        </StackPanel>
+                    </GroupBox>
                 </Grid>
-                <Grid Margin="0 10 0 0">
-                    <ProgressBar Height="25" Minimum="0" Maximum="100" Value="{Binding Character.MpPercentage, Mode=OneWay}" Foreground="DodgerBlue"></ProgressBar>
-                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <TextBlock.Text>
-                            <MultiBinding StringFormat="{}{0} / {1}">
-                                <Binding Path="Character.Mp"></Binding>
-                                <Binding Path="Character.MpMaximum"></Binding>
-                            </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
-                </Grid>
+                <GroupBox Grid.Row="3" Header="Map" Padding="10" Margin="0 10 0 0">
+                    <StackPanel>
+                        <TextBlock Text="{Binding Character.Map.Id, StringFormat={}Id: {0}}"></TextBlock>
+                        <TextBlock Text="{Binding Character.Map.Name, StringFormat={}Name: {0}}"></TextBlock>
+                        <TextBlock Text="{Binding Character.Map.Monsters.Count, StringFormat={}Monsters: {0}}"></TextBlock>
+                        <TextBlock Text="{Binding Character.Map.Npcs.Count, StringFormat={}Npcs: {0}}"></TextBlock>
+                        <TextBlock Text="{Binding Character.Map.Players.Count, StringFormat={}Players: {0}}"></TextBlock>
+                        <TextBlock Text="{Binding Character.Map.MapObjects.Count, StringFormat={}Items: {0}}"></TextBlock>
+                    </StackPanel>
+                </GroupBox>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Action">
+            <StackPanel Margin="10">
+                <Button Content="Move to closest monster" Command="{Binding MoveToMonster}"></Button>
+                <Button Margin="0 10 0 0" Content="Move pets to closest monster" Command="{Binding MovePetsToMonster}"></Button>
             </StackPanel>
-        </GroupBox>
-        <Grid Grid.Row="1" Margin="0 10 0 0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <GroupBox Grid.Column="0" Header="Partner" Padding="10" Margin="0 0 5 0">
-                <StackPanel>
-                    <TextBlock Text="{Binding Character.Partner.Entity.Id, StringFormat={}Id: {0}}"></TextBlock>
-                    <TextBlock Text="{Binding Character.Partner.Entity.Name, StringFormat={}Name: {0}}"></TextBlock>
-                    <TextBlock Text="{Binding Character.Partner.Entity.Level, StringFormat={}Level: {0}}"></TextBlock>
-                    <TextBlock Text="{Binding Character.Partner.Entity.Position, StringFormat={}Position: {0}}"></TextBlock>
-                    <ProgressBar Margin="0 10 0 0" Height="25" Minimum="0" Maximum="100" Value="{Binding Character.Partner.Entity.HpPercentage, Mode=OneWay}" Foreground="Green"></ProgressBar>
-                    <ProgressBar Margin="0 10 0 0" Height="25" Minimum="0" Maximum="100" Value="{Binding Character.Partner.Entity.MpPercentage, Mode=OneWay}" Foreground="DodgerBlue"></ProgressBar>
-                </StackPanel>
-            </GroupBox>
-            <GroupBox Grid.Column="1" Header="Pet" Padding="10" Margin="5 0 0 0">
-                <StackPanel>
-                    <TextBlock Text="{Binding Character.Pet.Entity.Id, StringFormat={}Id: {0}}"></TextBlock>
-                    <TextBlock Text="{Binding Character.Pet.Entity.Name, StringFormat={}Name: {0}}"></TextBlock>
-                    <TextBlock Text="{Binding Character.Pet.Entity.Level, StringFormat={}Level: {0}}"></TextBlock>
-                    <TextBlock Text="{Binding Character.Pet.Entity.Position, StringFormat={}Position: {0}}"></TextBlock>
-                    <ProgressBar Margin="0 10 0 0" Height="25" Minimum="0" Maximum="100" Value="{Binding Character.Pet.Entity.HpPercentage, Mode=OneWay}" Foreground="Green"></ProgressBar>
-                    <ProgressBar Margin="0 10 0 0" Height="25" Minimum="0" Maximum="100" Value="{Binding Character.Pet.Entity.MpPercentage, Mode=OneWay}" Foreground="DodgerBlue"></ProgressBar>
-                </StackPanel>
-            </GroupBox>
-        </Grid>
-        <GroupBox Grid.Row="2" Header="Map" Padding="10" Margin="0 10 0 0">
-            <StackPanel>
-                <TextBlock Text="{Binding Character.Map.Id, StringFormat={}Id: {0}}"></TextBlock>
-                <TextBlock Text="{Binding Character.Map.Name, StringFormat={}Name: {0}}"></TextBlock>
-                <TextBlock Text="{Binding Character.Map.Monsters.Count, StringFormat={}Monsters: {0}}"></TextBlock>
-                <TextBlock Text="{Binding Character.Map.Npcs.Count, StringFormat={}Npcs: {0}}"></TextBlock>
-                <TextBlock Text="{Binding Character.Map.Players.Count, StringFormat={}Players: {0}}"></TextBlock>
-                <TextBlock Text="{Binding Character.Map.MapObjects.Count, StringFormat={}Items: {0}}"></TextBlock>
-            </StackPanel>
-        </GroupBox>
-    </Grid>
+        </TabItem>
+    </TabControl>
 </Window>

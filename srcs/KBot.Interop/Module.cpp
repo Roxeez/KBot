@@ -22,6 +22,11 @@ Module::Module()
 	moduleSize = moduleInfo.SizeOfImage;
 }
 
+DWORD Module::GetBaseAddress()
+{
+    return this->baseAddress;
+}
+
 
 bool Module::Match(const byte* data, const char* signature, const char* mask) const
 {
@@ -35,14 +40,14 @@ bool Module::Match(const byte* data, const char* signature, const char* mask) co
 	return true;
 }
 
-byte* Module::FindPattern(const char* signature, const char* mask) const
+byte* Module::FindPattern(const char* signature, const char* mask, int offset) const
 {
 	for (unsigned int i = 0; i < moduleSize; i++)
 	{
 		byte* data = &reinterpret_cast<byte*>(baseAddress)[i];
 		if (Module::Match(data, signature, mask))
 		{
-			return data;
+			return data + offset;
 		}
 	}
 
