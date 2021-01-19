@@ -1,4 +1,4 @@
-﻿using KBot.Game.Enum;
+using KBot.Game.Enum;
 using PropertyChanged;
 
 namespace KBot.Game.Entities
@@ -27,6 +27,7 @@ namespace KBot.Game.Entities
 
         public Player(long id, string name) : base(id, EntityType.Player, name)
         {
+
         }
     }
 }

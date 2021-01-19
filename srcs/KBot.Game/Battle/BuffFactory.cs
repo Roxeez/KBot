@@ -1,4 +1,4 @@
-﻿using KBot.Data;
+using KBot.Data;
 using KBot.Data.Translation;
 using KBot.Game.Enum;
 
@@ -15,12 +15,12 @@ namespace KBot.Game.Battle
             this.languageService = languageService;
         }
 
-        public Buff CreateBuff(int id)
+        public Buff CreateBuff(int id, int duration)
         {
             BuffData data = database.GetBuffData(id);
             string name = languageService.GetTranslation(TranslationCategory.Buff, data.NameKey);
             
-            return new Buff(id, name, data.GroupId, (BuffCategory)data.Category, (BuffEffect)data.Effect, data.Level);
+            return new Buff(id, name, data.GroupId, (BuffCategory)data.Category, (BuffEffect)data.Effect, data.Level, duration);
         }
     }
 }

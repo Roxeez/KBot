@@ -1,5 +1,8 @@
 using System;
-using KBot.Common.Collection;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading;
 using KBot.Common.Logging;
 using KBot.Game.Enum;
 using KBot.Game.Extension;
@@ -13,7 +16,7 @@ namespace KBot.Game.Entities
     /// <summary>
     /// Represent your character in the game
     /// </summary>
-    public sealed class Character : Player
+    public sealed class Character : Player, IDisposable
     {
         /// <summary>
         /// GameSession used by this character (used to send packet)
@@ -59,26 +62,31 @@ namespace KBot.Game.Entities
         /// Current maximum mp of this character
         /// </summary>
         public int MpMaximum { get; set; }
-        
+
         /// <summary>
         /// Contains all skills of this character (collection can't be null)
         /// </summary>
-        public ObservableSet<Skill> Skills { get; }
+        public HashSet<Skill> Skills { get; }
+        
+        /// <summary>
+        /// Current usable combo skill
+        /// </summary>
+        public Skill ComboSkill { get; set; }
         
         /// <summary>
         /// Contains all main inventories of this character (collection can't be null)
         /// </summary>
-        public ObservableDictionary<InventoryType, Inventory> Inventories { get; }
+        public Dictionary<InventoryType, Inventory> Inventories { get; }
         
         /// <summary>
         /// Contains all pets of this character (collection can't be null)
         /// </summary>
-        public ObservableSet<OwnedPet> Pets { get; }
+        public HashSet<OwnedPet> Pets { get; }
         
         /// <summary>
         /// Contains all partners of this character (collection can't be null)
         /// </summary>
-        public ObservableSet<OwnedPartner> Partners { get; }
+        public HashSet<OwnedPartner> Partners { get; }
         
         /// <summary>
         /// Current pet following character (can be null if none)
@@ -90,18 +98,32 @@ namespace KBot.Game.Entities
         /// </summary>
         public Partner Partner { get; set; }
         
-        private readonly CharacterBridge bridge;
+        /// <summary>
+        /// Bridge used for C#/C++ Interop
+        /// </summary>
+        private static readonly CharacterBridge Bridge = new CharacterBridge();
+
+        private readonly Thread thread;
+        private bool dispose;
         
         public Character(GameSession session) : base(0, string.Empty)
         {
-            bridge = new CharacterBridge();
-            
             Session = session;
             
-            Skills = new ObservableSet<Skill>();
-            Inventories = new ObservableDictionary<InventoryType, Inventory>();
-            Pets = new ObservableSet<OwnedPet>();
-            Partners = new ObservableSet<OwnedPartner>();
+            Skills = new HashSet<Skill>();
+            Inventories = new Dictionary<InventoryType, Inventory>();
+            Pets = new HashSet<OwnedPet>();
+            Partners = new HashSet<OwnedPartner>();
+
+            thread = new Thread(() =>
+            {
+                while(!dispose)
+                {
+                    Position = new Position(Bridge.GetPositionX(), Bridge.GetPositionY());
+                    Thread.Sleep(10);
+                }
+            });
+            thread.Start();
         }
 
         /// <summary>
@@ -110,14 +132,14 @@ namespace KBot.Game.Entities
         /// <param name="position">Position where you want to move</param>
         public void Walk(Position position)
         {
-            if (!Map.IsWalkable(position))
+            if (CantMove)
             {
-                Log.Warning($"Position is not walkable, can't move to {position}");
+                Log.Information("Character can't move (stunned)");
                 return;
             }
-
-            bridge.Walk(position.X, position.Y);
-            Log.Debug($"Move to {position}");
+            
+            Bridge.Walk(position.X, position.Y);
+            Log.Information($"Move character to {position}");
         }
 
         /// <summary>
@@ -127,6 +149,11 @@ namespace KBot.Game.Entities
         public void UseItem(InventoryItem stack)
         {
             UseItemOn(stack, this);
+        }
+
+        public void PickUp(MapObject mapObject)
+        {
+            Session.SendPacket($"get {(int)EntityType} {Id} {mapObject.Id}");
         }
 
         /// <summary>
@@ -149,7 +176,7 @@ namespace KBot.Game.Entities
             }
             
             Session.SendPacket($"u_i {(int)entity.EntityType} {entity.Id} {(int)item.InventoryType} {item.Slot} 0 0 ");
-            Log.Debug($"Used item {item.Stack.Item.Id} from {item.InventoryType} in slot {item.Slot} on {entity.EntityType} with ID {entity.Id}");
+            Log.Information($"Use item {item.Stack.Item.Id} from inventory {item.InventoryType} in slot {item.Slot} on {entity.EntityType} with ID {entity.Id}");
         }
 
         /// <summary>
@@ -165,12 +192,29 @@ namespace KBot.Game.Entities
                 return;
             }
 
+            if (CantAttack)
+            {
+                return;
+            }
+
+            if (skill.IsOnCooldown())
+            {
+                Log.Warning("Attack on cooldown");
+                return;
+            }
+
+            if (skill.MpCost > Mp)
+            {
+                Log.Warning("Mp cost to high");
+                return;
+            }
+            
             switch (skill.Target)
             {
                 case SkillTarget.Self:
                     if (!entity.Equals(this))
                     {
-                        Log.Warning($"Trying to use skill on another entity but skill target should be self");
+                        Log.Warning("Trying to use a self skill on a target");
                         return;
                     }
                     break;
@@ -182,18 +226,20 @@ namespace KBot.Game.Entities
                     }
                     break;
                 case SkillTarget.NoTarget:
-                    Log.Warning("Trying to use a skill without target on a target");
+                    Attack(skill, entity.Position);
                     return;
             }
-
-            if (!Position.IsInRange(entity.Position, skill.Range + 1))
+            
+            if (!this.IsInSkillRange(entity.Position, skill) && !entity.Equals(this))
             {
-                Log.Warning($"Trying to attack entity at {entity.Position} from {Position} but it's out of skill range ({skill.Range} cells)");
+                Log.Warning($"Trying to attack entity at {entity.Position} from {Position} but it's out of range");
                 return;
             }
+            
+            skill.LastUse = DateTime.Now.AddMilliseconds(skill.CastTime * 100);
 
             Session.SendPacket($"u_s {skill.CastId} {(int)entity.EntityType} {entity.Id}");
-            Log.Debug($"Used skill {skill.CastId} on {entity.EntityType} with ID {entity.Id}");
+            Log.Information($"Attacking {entity.Name} with skill {skill.Name}");
         }
 
         /// <summary>
@@ -209,19 +255,43 @@ namespace KBot.Game.Entities
                 return;
             }
 
+            if (CantAttack)
+            {
+                return;
+            }
+            
+            if (skill.IsOnCooldown())
+            {
+                return;
+            }
+
+            if (skill.MpCost > Mp)
+            {
+                return;
+            }
+
             if (skill.Target != SkillTarget.NoTarget)
             {
                 Log.Warning($"Trying to use a skill at defined position when target should be {skill.Target}");
                 return;
             }
             
-            if (!Position.IsInRange(position, skill.Range))
+            if (!this.IsInSkillRange(position, skill))
             {
-                Log.Warning($"Trying to attack at {position} from {Position} but it's out of skill range ({skill.Range} cells)");
+                Log.Warning($"Trying to attack at {position} from {Position} but it's out of range");
                 return;
             }
             
-            Log.Debug($"Used skill {skill.CastId} at {position}");
+            skill.LastUse = DateTime.Now.AddMilliseconds(skill.CastTime * 100);
+            
+            Session.SendPacket($"u_as {skill.CastId} {position.X} {position.Y}");
+            Log.Debug($"Use skill {skill.CastId} at {position}");
+        }
+
+        public void Dispose()
+        {
+            dispose = true;
+            thread.Join();
         }
     }
 }

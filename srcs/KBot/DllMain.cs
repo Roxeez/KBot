@@ -1,11 +1,15 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading;
-using System.Windows;
 using KBot.Common.Extension;
 using KBot.Common.Logging;
-using KBot.Data;
+using KBot.Context;
+using KBot.Core;
 using KBot.Data.Extension;
+using KBot.Event;
+using KBot.Event.Extension;
+using KBot.Game;
 using KBot.Game.Extension;
 using KBot.Interop;
 using KBot.Network.Extension;
@@ -19,26 +23,12 @@ namespace KBot
         [DllImport("kernel32")]
         private static extern bool AllocConsole();
 
-        private static readonly LoggerBridge LoggerBridge;
-        private static readonly LoggerCallback LoggerCallback;
-
-        static DllMain()
-        {
-            LoggerCallback = str =>
-            {
-                Log.Debug($"[KBot.Interop] {str}");
-            };
-            LoggerBridge = new LoggerBridge();
-        }
-
         [DllExport]
         public static void Main()
         {
             AllocConsole();
-
+            
             Log.Logger = new Logger("KBot");
-
-            LoggerBridge.SetCallback(LoggerCallback);
 
             Log.Debug("Initializing services");
             IServiceProvider services = new ServiceCollection()
@@ -48,17 +38,30 @@ namespace KBot
                 .AddFileManager()
                 .AddLanguageService()
                 .AddDatabase()
+                .AddEventPipeline()
+                .AddSingleton<GameSession>()
+                .AddSingleton<ProfileManager>()
+                .AddSingleton<Bot>()
+                .AddImplementingTypes<ITabContext>()
                 .AddTransient<App>()
                 .BuildServiceProvider();
 
-            AppDomain.CurrentDomain.UnhandledException += (obj, ex) =>
+            EventPipeline pipeline = services.GetRequiredService<EventPipeline>();
+            IEnumerable<IEventProcessor> processors = services.GetServices<IEventProcessor>();
+
+            foreach (IEventProcessor processor in processors)
             {
-                Log.Error("Unhandled exception", (Exception) ex.ExceptionObject);
-            };
+                pipeline.AddProcessor(processor);
+            }
             
             Log.Debug("Starting app thread");
             var thread = new Thread(() =>
             {
+                AppDomain.CurrentDomain.UnhandledException += (obj, ex) =>
+                {
+                    Log.Error("Unhandled exception", (Exception) ex.ExceptionObject);
+                };
+
                 App app = services.GetRequiredService<App>();
 
                 app.InitializeComponent();

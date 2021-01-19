@@ -24,6 +24,7 @@ namespace KBot.Network.Packet.Characters
     public class LevCreator : IPacketCreator
     {
         public string Header { get; } = "lev";
+        public PacketType PacketType { get; } = PacketType.Received;
         
         public IPacket Create(string[] content)
         {

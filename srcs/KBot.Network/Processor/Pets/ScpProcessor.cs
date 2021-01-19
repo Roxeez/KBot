@@ -1,5 +1,9 @@
-﻿using KBot.Data;
+using System.Linq;
+using KBot.Common.Logging;
+using KBot.Data;
 using KBot.Data.Translation;
+using KBot.Event;
+using KBot.Event.Characters;
 using KBot.Game;
 using KBot.Game.Entities;
 using KBot.Game.Enum;
@@ -13,16 +17,28 @@ namespace KBot.Network.Processor.Pets
     {
         private readonly Database database;
         private readonly LanguageService languageService;
+        private readonly EventPipeline eventPipeline;
 
-        public ScpProcessor(Database database, LanguageService languageService)
+        public ScpProcessor(Database database, LanguageService languageService, EventPipeline eventPipeline)
         {
             this.database = database;
             this.languageService = languageService;
+            this.eventPipeline = eventPipeline;
         }
 
         protected override void Process(GameSession session, Scp packet)
         {
             Character character = session.Character;
+
+            if (character.Pet != null && character.Pet.Id == packet.PetId)
+            {
+                if (packet.Loyalty != character.Pet.Loyalty)
+                {
+                    eventPipeline.Process(session, new PetLoyaltyChanged());
+                }
+               
+                return;
+            }
             
             MonsterData data = database.GetMonsterData(packet.ModelId);
             string name = languageService.GetTranslation(TranslationCategory.Monster, data.NameKey);
@@ -41,19 +57,15 @@ namespace KBot.Network.Processor.Pets
             
             character.Pets.Add(pet);
 
-            if (packet.IsTeamMember)
+            if (pet.IsTeamMember)
             {
-                LivingEntity entity = character.Map.GetEntity<LivingEntity>(EntityType.Npc, packet.EntityId);
+                Npc entity = character.Map.GetEntity<Npc>(EntityType.Npc, pet.EntityId);
                 if (entity == null)
                 {
                     return;
                 }
-
-                character.Pet = new Pet(pet, entity)
-                {
-                    Level = pet.Level,
-                    Name = pet.Name,
-                };
+                
+                character.Pet = new Pet(character, pet, entity);
             }
         }
     }

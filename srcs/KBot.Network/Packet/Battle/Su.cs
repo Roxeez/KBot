@@ -20,6 +20,7 @@ namespace KBot.Network.Packet.Battle
     public class SuCreator : IPacketCreator
     {
         public string Header { get; } = "su";
+        public PacketType PacketType { get; } = PacketType.Received;
         
         public IPacket Create(string[] content)
         {

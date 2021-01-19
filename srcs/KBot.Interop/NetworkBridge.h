@@ -11,10 +11,10 @@ namespace KBot
 		public ref class NetworkBridge
 		{
 		private:
-			static const char* ConvertToCharArray(String^ str)
-			{
-				return (const char*)(Marshal::StringToHGlobalAnsi(str).ToPointer());
-			}
+            static const char* ConvertToCharArray(String^ str)
+            {
+                return (const char*)(Marshal::StringToHGlobalAnsi(str).ToPointer());
+            }
 
 		public:
 			NetworkBridge();

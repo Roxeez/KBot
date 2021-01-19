@@ -13,6 +13,7 @@ namespace KBot.Network.Packet.Characters
     public class StatCreator : IPacketCreator
     {
         public string Header { get; } = "stat";
+        public PacketType PacketType { get; } = PacketType.Received;
         
         public IPacket Create(string[] content)
         {

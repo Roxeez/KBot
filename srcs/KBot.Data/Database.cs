@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using KBot.Common;
 using KBot.Common.Extension;
 
@@ -18,6 +20,8 @@ namespace KBot.Data
         public const string MapPath = "db/maps.json";
         public const string SkillPath = "db/skills.json";
         public const string BuffPath = "db/buffs.json";
+        public const string IconPath = "db/images/icons";
+        public const string MapPreviewPath = "db/images/maps";
         
         private readonly FileManager fileManager;
         
@@ -75,7 +79,24 @@ namespace KBot.Data
             
             return buffs.GetValue(buffId) ?? throw new DatabaseException($"Failed to get buff {buffId} from database (database update required)");
         }
-        
+
+        public Bitmap GetImage(ImageType type, int id)
+        {
+            switch (type)
+            {
+                case ImageType.Icon:
+                    if (!fileManager.HasFile($"{IconPath}/{id}"))
+                    {
+                        return fileManager.LoadBitmap($"{IconPath}/1");
+                    }
+                    return fileManager.LoadBitmap($"{IconPath}/{id}");
+                case ImageType.Map:
+                    return fileManager.LoadBitmap($"{MapPreviewPath}/{id}");
+                default:
+                    throw new DatabaseException($"Can't found image {type} with ID {id}");
+            }
+        }
+
         public void Load()
         {
             monsters = fileManager.Load<Dictionary<int, MonsterData>>(MonsterPath);
@@ -91,7 +112,9 @@ namespace KBot.Data
                 && fileManager.HasFile(ItemPath) 
                 && fileManager.HasFile(MapPath) 
                 && fileManager.HasFile(SkillPath)
-                && fileManager.HasFile(BuffPath);
+                && fileManager.HasFile(BuffPath)
+                && fileManager.HasDirectory(IconPath)
+                && fileManager.HasDirectory(MapPreviewPath);
         }
     }
 }

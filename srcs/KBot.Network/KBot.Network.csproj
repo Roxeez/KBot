@@ -46,41 +46,57 @@
         <Compile Include="Extension\ServiceCollectionExtensions.cs" />
         <Compile Include="NetworkManager.cs" />
         <Compile Include="Packet\Battle\Bf.cs" />
+        <Compile Include="Packet\Battle\Cond.cs" />
         <Compile Include="Packet\Battle\Die.cs" />
+        <Compile Include="Packet\Battle\Msc.cs" />
+        <Compile Include="Packet\Battle\MSlot.cs" />
         <Compile Include="Packet\Battle\Sr.cs" />
         <Compile Include="Packet\Battle\Su.cs" />
+        <Compile Include="Packet\Battle\Us.cs" />
         <Compile Include="Packet\Characters\Lev.cs" />
         <Compile Include="Packet\Characters\Ski.cs" />
+        <Compile Include="Packet\Characters\Vb.cs" />
         <Compile Include="Packet\Characters\Walk.cs" />
+        <Compile Include="Packet\Entities\Drop.cs" />
+        <Compile Include="Packet\Entities\Get.cs" />
         <Compile Include="Packet\Entities\Mv.cs" />
         <Compile Include="Packet\Inventories\Inv.cs" />
+        <Compile Include="Packet\Inventories\Ivn.cs" />
+        <Compile Include="Packet\Maps\At.cs" />
         <Compile Include="Packet\Pets\PClear.cs" />
         <Compile Include="Packet\Pets\PtCtl.cs" />
         <Compile Include="Packet\IPacket.cs" />
-        <Compile Include="Packet\Maps\CMap.cs" />
         <Compile Include="Packet\Maps\Gp.cs" />
         <Compile Include="Packet\Maps\In.cs" />
         <Compile Include="Packet\Maps\Out.cs" />
         <Compile Include="Packet\PacketFactory.cs" />
         <Compile Include="Packet\Characters\CInfo.cs" />
-        <Compile Include="Packet\Characters\Ncif.cs" />
         <Compile Include="Packet\Characters\Stat.cs" />
         <Compile Include="Packet\Pets\Scn.cs" />
         <Compile Include="Packet\Pets\Scp.cs" />
+        <Compile Include="Packet\PacketType.cs" />
         <Compile Include="Packet\UndefinedPacket.cs" />
         <Compile Include="Processor\Battle\BfProcessor.cs" />
+        <Compile Include="Processor\Battle\CondProcessor.cs" />
         <Compile Include="Processor\Battle\DieProcessor.cs" />
+        <Compile Include="Processor\Battle\MscProcessor.cs" />
+        <Compile Include="Processor\Battle\MSlotProcessor.cs" />
         <Compile Include="Processor\Battle\SrProcessor.cs" />
         <Compile Include="Processor\Battle\SuProcessor.cs" />
+        <Compile Include="Processor\Battle\UsProcessor.cs" />
         <Compile Include="Processor\Characters\CInfoProcessor.cs" />
         <Compile Include="Processor\Characters\LevProcessor.cs" />
         <Compile Include="Processor\Characters\SkiProcessor.cs" />
         <Compile Include="Processor\Characters\StatProcessor.cs" />
+        <Compile Include="Processor\Characters\VbProcessor.cs" />
         <Compile Include="Processor\Characters\WalkProcessor.cs" />
+        <Compile Include="Processor\Entities\DropProcessor.cs" />
+        <Compile Include="Processor\Entities\GetProcessor.cs" />
         <Compile Include="Processor\Entities\MvProcessor.cs" />
         <Compile Include="Processor\Inventories\InvProcessor.cs" />
+        <Compile Include="Processor\Inventories\IvnProcessor.cs" />
         <Compile Include="Processor\IPacketProcessor.cs" />
-        <Compile Include="Processor\Maps\CMapProcessor.cs" />
+        <Compile Include="Processor\Maps\AtProcessor.cs" />
         <Compile Include="Processor\Maps\GpProcessor.cs" />
         <Compile Include="Processor\Maps\InProcessor.cs" />
         <Compile Include="Processor\Maps\OutProcessor.cs" />
@@ -98,6 +114,10 @@
       <ProjectReference Include="..\KBot.Data\KBot.Data.csproj">
         <Project>{c7a4775f-2d22-4c74-8749-9fe170e5063b}</Project>
         <Name>KBot.Data</Name>
+      </ProjectReference>
+      <ProjectReference Include="..\KBot.Event\KBot.Event.csproj">
+        <Project>{e067d99c-ed71-4ea6-a68e-2addbbe163be}</Project>
+        <Name>KBot.Event</Name>
       </ProjectReference>
       <ProjectReference Include="..\KBot.Game\KBot.Game.csproj">
         <Project>{f36cb6de-21c3-4028-912a-521d3b9ee883}</Project>

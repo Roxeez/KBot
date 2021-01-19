@@ -1,0 +1,50 @@
+<UserControl x:Class="KBot.UI.Control.PathTab"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ctx="clr-namespace:KBot.Context.Control"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{materialDesign:MaterialDesignFont}"
+             d:DesignWidth="750"
+             d:DesignHeight="415"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance ctx:PathTabContext}">
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <GroupBox Margin="0 0 5 0" Grid.Column="0" Header="PATH">
+            <Grid Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <ListBox ItemsSource="{Binding Bot.Path}"></ListBox>
+                <Grid Grid.Row="1" Margin="0 10 0 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <ToggleButton IsChecked="{Binding Bot.IsRecordingPath}"></ToggleButton>
+                    <Button Grid.Column="1" Margin="10 0 0 0" materialDesign:ButtonAssist.CornerRadius="0" Content="Clear" Command="{Binding ClearPath}"></Button>
+                </Grid>
+            </Grid>
+        </GroupBox>
+        <Grid Margin="5 0 0 0" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Image Grid.Row="0" Source="{Binding Bot.MapPreview}"></Image>
+            <GroupBox Header="OPTIONS" Grid.Row="1" Margin="0 10 0 0">
+                <StackPanel Margin="5">
+                    <CheckBox Content="Use amulet of return when reaching last position" IsChecked="{Binding Bot.UseAmuletOfReturn}"></CheckBox>
+                </StackPanel>
+            </GroupBox>
+        </Grid>
+    </Grid>
+</UserControl>

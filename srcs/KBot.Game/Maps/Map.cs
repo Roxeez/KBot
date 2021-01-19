@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Drawing;
 using System.Linq;
+using System.Windows.Media.Imaging;
 using JetBrains.Annotations;
-using KBot.Common.Collection;
 using KBot.Common.Extension;
 using KBot.Game.Entities;
 using KBot.Game.Enum;
@@ -42,36 +43,38 @@ namespace KBot.Game.Maps
         /// </summary>
         public int Width { get; }
         
+        public Bitmap Preview { get; }
+        
         /// <summary>
         /// Contains all monsters on this map
         /// </summary>
         [NotNull]
-        public ObservableDictionary<long, Monster> Monsters { get; }
+        public ConcurrentDictionary<long, Monster> Monsters { get; }
         
         /// <summary>
         /// Contains all npcs on this map
         /// </summary>
         [NotNull]
-        public ObservableDictionary<long, Npc> Npcs { get; }
+        public ConcurrentDictionary<long, Npc> Npcs { get; }
         
         /// <summary>
         /// Contains all players on this map
         /// </summary>
         [NotNull]
-        public ObservableDictionary<long, Player> Players { get; }
+        public ConcurrentDictionary<long, Player> Players { get; }
         
         /// <summary>
         /// Contains all map objects on this map
         /// </summary>
         [NotNull]
-        public ObservableDictionary<long, MapObject> MapObjects { get; }
+        public ConcurrentDictionary<long, MapObject> MapObjects { get; }
         
         /// <summary>
         /// Contains all portals on this map
         /// </summary>
         [NotNull]
-        public ObservableDictionary<long, Portal> Portals { get; }
-        
+        public ConcurrentDictionary<long, Portal> Portals { get; }
+
         /// <summary>
         /// Contains all entities on this map
         /// </summary>
@@ -80,17 +83,18 @@ namespace KBot.Game.Maps
 
         private byte this[int x, int y] => Grid.Skip(4 + y * Width + x).Take(1).FirstOrDefault();
 
-        public Map(int id, string name, byte[] grid)
+        public Map(int id, string name, byte[] grid, Bitmap preview)
         {
             Id = id;
             Grid = grid;
             Name = name;
-            Monsters = new ObservableDictionary<long, Monster>();
-            Npcs = new ObservableDictionary<long, Npc>();
-            Players = new ObservableDictionary<long, Player>();
-            MapObjects = new ObservableDictionary<long, MapObject>();
-            Portals = new ObservableDictionary<long, Portal>();
-            
+            Monsters = new ConcurrentDictionary<long, Monster>();
+            Npcs = new ConcurrentDictionary<long, Npc>();
+            Players = new ConcurrentDictionary<long, Player>();
+            MapObjects = new ConcurrentDictionary<long, MapObject>();
+            Portals = new ConcurrentDictionary<long, Portal>();
+            Preview = preview;
+
             Width = Grid.Length == 0 ? 0 : BitConverter.ToInt16(Grid.Take(2).ToArray(), 0);
             Height = Grid.Length == 0 ? 0 : BitConverter.ToInt16(Grid.Skip(2).Take(2).ToArray(), 0);
         }

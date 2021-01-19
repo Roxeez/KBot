@@ -14,6 +14,7 @@ namespace KBot.Network.Packet.Characters
     public class CInfoCreator : IPacketCreator
     {
         public string Header { get; } = "c_info";
+        public PacketType PacketType { get; } = PacketType.Received;
         
         public IPacket Create(string[] content)
         {

@@ -1,4 +1,9 @@
 ﻿using System;
+using System.Collections;
+using System.Drawing;
+using System.Security.Authentication;
+using System.Security.Cryptography;
+using System.Windows.Media.Imaging;
 using KBot.Game.Enum;
 
 namespace KBot.Game.Battle
@@ -17,12 +22,48 @@ namespace KBot.Game.Battle
         public SkillTarget Target { get; set; }
         public HitType HitType { get; set; }
         public SkillType Type { get; set; }
-        
-        public bool IsOnCooldown { get; set; }
+        public bool IsCombo { get; set; }
+        public DateTime LastUse { get; set; }
+        public BitmapImage Icon { get; set; }
         
         public bool Equals(Skill other)
         {
-            return other != null && other.Id == Id;
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            return Id == other.Id;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != this.GetType())
+            {
+                return false;
+            }
+
+            return Equals((Skill)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return Id;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using KBot.Data;
+using KBot.Data;
 using KBot.Data.Translation;
 using KBot.Game.Inventories;
 
@@ -36,7 +36,10 @@ namespace KBot.Game.Entities
             
             return new Npc(entityId, name, modelId)
             {
-                Level = data.Level
+                Level = data.Level,
+                BasicRange = data.BasicAttackRange,
+                BasicCastTime = data.BasicAttackCastTime,
+                BasicCooldown = data.BasicAttackCooldown
             };
         }
 

@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using KBot.Common.Logging;
+using KBot.Event;
+using KBot.Event.Characters;
 using KBot.Game;
 using KBot.Game.Inventories;
 using KBot.Network.Packet.Inventories;
@@ -9,10 +11,11 @@ namespace KBot.Network.Processor.Inventories
     public class InvProcessor : PacketProcessor<Inv>
     {
         private readonly ItemFactory itemFactory;
-
-        public InvProcessor(ItemFactory itemFactory)
+        private readonly EventPipeline eventPipeline;
+        public InvProcessor(ItemFactory itemFactory, EventPipeline eventPipeline)
         {
             this.itemFactory = itemFactory;
+            this.eventPipeline = eventPipeline;
         }
         
         protected override void Process(GameSession session, Inv packet)
@@ -27,8 +30,12 @@ namespace KBot.Network.Processor.Inventories
             }
             
             session.Character.Inventories[packet.InventoryType] = new Inventory(packet.InventoryType, items);
-            
             Log.Debug($"Inventory {packet.InventoryType} successfully populated");
+            
+            eventPipeline.Process(session, new InventoryLoadedEvent
+            {
+                Inventory = session.Character.Inventories[packet.InventoryType]
+            });
         }
     }
 }

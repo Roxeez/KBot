@@ -1,5 +1,5 @@
 #include "NetworkBridge.h"
-#include "NostaleString.h"
+#include "NtString.h"
 #include "Network.h"
 
 namespace KBot
@@ -13,12 +13,12 @@ namespace KBot
 
 		void NetworkBridge::SendPacket(String^ packet)
 		{
-			Network::GetInstance()->SendPacket(NostaleString(ConvertToCharArray(packet)).ToString());
+			Network::GetInstance()->SendPacket(NtString(ConvertToCharArray(packet)).ToString());
 		}
 
 		void NetworkBridge::RecvPacket(String^ packet)
 		{
-			Network::GetInstance()->RecvPacket(NostaleString(ConvertToCharArray(packet)).ToString());
+			Network::GetInstance()->RecvPacket(NtString(ConvertToCharArray(packet)).ToString());
 		}
 
 		void NetworkBridge::AddSendCallback(NetworkCallback^ callback)

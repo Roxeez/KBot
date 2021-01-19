@@ -1,4 +1,6 @@
 #pragma once
+#include "Character.h"
+
 namespace KBot
 {
 	namespace Interop
@@ -6,8 +8,9 @@ namespace KBot
 		public ref class CharacterBridge
 		{
 		public:
-			void Walk(short x, short y);
-            void PetWalk(short x, short y);
+            void Walk(short x, short y);
+            short GetPositionX();
+            short GetPositionY();
 		};
 	};
 };

@@ -1,0 +1,36 @@
+<mde:MaterialWindow x:Class="KBot.UI.Window.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:mde="clr-namespace:MaterialDesignExtensions.Controls;assembly=MaterialDesignExtensions"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ctx="clr-namespace:KBot.Context.Window"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{materialDesign:MaterialDesignFont}"
+        mc:Ignorable="d"
+        Title="KBot"
+        WindowStartupLocation="CenterScreen"
+        MinWidth="750"
+        MinHeight="500"
+        Height="500"
+        Width="750"
+        d:DataContext="{d:DesignInstance ctx:MainWindowContext}">
+    <Grid>
+        <TabControl Style="{StaticResource MaterialDesignTabControl}">
+            <TabItem Header="General">
+                <ContentControl Content="{Binding GeneralTab}"></ContentControl>
+            </TabItem>
+            <TabItem Header="Fight">
+                <ContentControl Content="{Binding FightTab}"></ContentControl>
+            </TabItem>
+            <TabItem Header="Item">
+                <ContentControl Content="{Binding ItemTab}"></ContentControl>
+            </TabItem>
+            <TabItem Header="Path">
+                <ContentControl Content="{Binding PathTab}"></ContentControl>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</mde:MaterialWindow>

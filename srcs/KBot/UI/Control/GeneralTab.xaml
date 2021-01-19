@@ -1,0 +1,148 @@
+<UserControl x:Class="KBot.UI.Control.GeneralTab"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ctx="clr-namespace:KBot.Context.Control"
+             xmlns:converter="clr-namespace:KBot.UI.Converter"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{materialDesign:MaterialDesignFont}"
+             d:DesignWidth="750"
+             d:DesignHeight="415"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance ctx:GeneralTabContext}">
+    <UserControl.Resources>
+        <converter:BoolConverter True="Visible" False="Collapsed" x:Key="TrueToVisible"></converter:BoolConverter>
+        <converter:BoolConverter True="Collapsed" False="Visible" x:Key="TrueToCollapsed"></converter:BoolConverter>
+    </UserControl.Resources>
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2.5*"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0" Margin="0 0 5 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <GroupBox Grid.Row="0" Header="CHARACTER">
+                <Grid Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <ProgressBar Minimum="0" Maximum="100" Value="{Binding Character.HpPercentage}" Height="20"></ProgressBar>
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0} / {1}  ({2} %)">
+                                    <Binding Path="Character.Hp" />
+                                    <Binding Path="Character.HpMaximum" />
+                                    <Binding Path="Character.HpPercentage" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </Grid>
+                    <Grid Grid.Row="1" Margin="0 5 0 0">
+                        <ProgressBar Minimum="0" Maximum="100" Value="{Binding Character.MpPercentage}" Height="20"></ProgressBar>
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0} / {1}  ({2} %)">
+                                    <Binding Path="Character.Mp" />
+                                    <Binding Path="Character.MpMaximum" />
+                                    <Binding Path="Character.MpPercentage" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </Grid>
+                    <Grid Grid.Row="2" Margin="0 15 0 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="{Binding Character.Id, StringFormat={}Id: {0}}"></TextBlock>
+                            <TextBlock Text="{Binding Character.Name, StringFormat={}Name: {0}}"></TextBlock>
+                            <TextBlock Text="{Binding Character.Map.Name, StringFormat={}Map: {0}}"></TextBlock>
+                            <TextBlock Text="{Binding Character.Position, StringFormat={}Position: {0}}"></TextBlock>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1">
+                            <TextBlock Text="{Binding Character.Job, StringFormat={}Job: {0}}"></TextBlock>
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}Level: {0} ({1}%)">
+                                        <Binding Path="Character.Level" />
+                                        <Binding Path="Character.Experience" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}Job Level: {0} ({1}%)">
+                                        <Binding Path="Character.JobLevel" />
+                                        <Binding Path="Character.JobExperience" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}Hero Level: {0} ({1}%)">
+                                        <Binding Path="Character.HeroLevel" />
+                                        <Binding Path="Character.HeroExperience" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </GroupBox>
+            <GroupBox Header="LOGS" Grid.Row="1" Margin="0 10 0 0">
+                <Grid Margin="5">
+                    <TextBox IsReadOnly="True" IsReadOnlyCaretVisible="False" Text="{Binding Logs}" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"></TextBox>
+                </Grid>
+            </GroupBox>
+        </Grid>
+        <Grid Grid.Column="1" Margin="5 0 0 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <GroupBox Header="STATISTICS">
+                <StackPanel Margin="5">
+                    <TextBlock Text="Runtime: 00:50:34"></TextBlock>
+                    <StackPanel Margin="0 10 0 0">
+                        <TextBlock Text="1841 monsters killed"></TextBlock>
+                        <TextBlock Text="521 items collected"></TextBlock>
+                        <TextBlock Text="157 items used"></TextBlock>
+                        <TextBlock Text="1054 skills used"></TextBlock>
+                    </StackPanel>
+                    <StackPanel Margin="0 10 0 0">
+                        <TextBlock Text="157% experience earned"></TextBlock>
+                        <TextBlock Text="157% job experience earned"></TextBlock>
+                        <TextBlock Text="157% hero experience earned"></TextBlock>
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Grid.Row="2" Header="PROFILE" Margin="0 10 0 0">
+                <StackPanel Margin="5">
+                    <ComboBox Text="Profile" ItemsSource="{Binding Profiles}" SelectedItem="{Binding SelectedProfile}"></ComboBox>
+                    <Grid Margin="0 10 0 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Button materialDesign:ButtonAssist.CornerRadius="0" Margin="0 0 5 0" Grid.Column="0" Content="Load" Command="{Binding LoadProfile}"></Button>
+                        <Button materialDesign:ButtonAssist.CornerRadius="0" Margin="5 0 0 0" Grid.Column="1" Content="Save" Command="{Binding SaveProfile}"></Button>
+                    </Grid>
+                </StackPanel>
+            </GroupBox>
+            <Button materialDesign:ButtonAssist.CornerRadius="0" Margin="0 10 0 0" Grid.Row="3" Height="35" Content="START" Visibility="{Binding Bot.IsRunning, Converter={StaticResource TrueToCollapsed}}" Command="{Binding StartCommand}"></Button>
+            <Button materialDesign:ButtonAssist.CornerRadius="0" Margin="0 10 0 0" Grid.Row="3" Height="35" Content="STOP" Visibility="{Binding Bot.IsRunning, Converter={StaticResource TrueToVisible}}" Command="{Binding StopCommand}"></Button>
+        </Grid>
+    </Grid>
+</UserControl>

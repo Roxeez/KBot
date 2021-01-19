@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using KBot.Common.Extension;
+using KBot.Common.Logging;
 using KBot.Game;
 using KBot.Network.Packet;
 using KBot.Network.Processor;
@@ -24,8 +25,15 @@ namespace KBot.Network
             {
                 return;
             }
-            
-            processor.Process(session, packet);
+
+            try
+            {
+                processor.Process(session, packet);
+            }
+            catch (Exception e)
+            {
+                Log.Error($"Error when processing packet {packet.GetType().Name}", e);
+            }
         }
     }
 }

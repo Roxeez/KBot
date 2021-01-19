@@ -7,14 +7,25 @@ namespace KBot.Network.Packet
 {
     public sealed class PacketFactory
     {
-        private readonly Dictionary<string, IPacketCreator> creators;
+        private readonly Dictionary<PacketType, Dictionary<string, IPacketCreator>> creators;
 
         public PacketFactory(IEnumerable<IPacketCreator> creators)
         {
-            this.creators = creators.ToDictionary(x => x.Header, x => x);
+            this.creators = new Dictionary<PacketType, Dictionary<string, IPacketCreator>>();
+            foreach (IPacketCreator creator in creators)
+            {
+                Dictionary<string, IPacketCreator> sidedCreators = this.creators.GetValue(creator.PacketType);
+                if (sidedCreators == null)
+                {
+                    sidedCreators = new Dictionary<string, IPacketCreator>();
+                    this.creators[creator.PacketType] = sidedCreators;
+                }
+
+                sidedCreators[creator.Header] = creator;
+            }
         }
         
-        public IPacket CreateTypedPacket(string packet)
+        public IPacket CreateTypedPacket(string packet, PacketType type)
         {
             string[] split = packet.Split(' ');
             if (split.Length == 0)
@@ -25,12 +36,13 @@ namespace KBot.Network.Packet
             string header = split[0];
             string[] content = split.Length > 1 ? split.Skip(1).ToArray() : Array.Empty<string>();
 
-            IPacketCreator creator = creators.GetValue(header);
+            IPacketCreator creator = creators.GetValue(type)?.GetValue(header);
             if (creator == null)
             {
                 return new UndefinedPacket
                 {
                     Header = header,
+                    PacketType = type,
                     Content = content,
                     Packet = packet
                 };

@@ -13,5 +13,7 @@
         public int Target { get; set; }
         public int HitType { get; set; }
         public int Type { get; set; }
+        public bool IsCombo { get; set; }
+        public int Icon { get; set; }
     }
 }

@@ -10,6 +10,7 @@ namespace KBot.Network.Packet.Battle
     public class SrCreator : IPacketCreator
     {
         public string Header { get; } = "sr";
+        public PacketType PacketType { get; } = PacketType.Received;
         
         public IPacket Create(string[] content)
         {

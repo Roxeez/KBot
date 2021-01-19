@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Threading;
 using KBot.Game.Entities;
 using KBot.Interop;
 
@@ -12,7 +13,8 @@ namespace KBot.Game
         public event Action<string> PacketSend;
         public event Action<string> PacketReceived;
         
-        private readonly NetworkBridge bridge;
+        private static readonly NetworkBridge Bridge = new NetworkBridge();
+
         private readonly NetworkCallback sendCallback;
         private readonly NetworkCallback recvCallback;
 
@@ -20,24 +22,22 @@ namespace KBot.Game
         {
             Id = Guid.NewGuid();
             Character = new Character(this);
-            
-            bridge = new NetworkBridge();
-
+           
             sendCallback = OnPacketSend;
             recvCallback = OnPacketReceived;
 
-            bridge.AddSendCallback(sendCallback);
-            bridge.AddRecvCallback(recvCallback);
+            Bridge.AddSendCallback(sendCallback);
+            Bridge.AddRecvCallback(recvCallback);
         }
 
         public void SendPacket(string message)
         {
-            bridge.SendPacket(message);
+            Bridge.SendPacket(message);
         }
 
         public void ReceivePacket(string packet)
         {
-            bridge.SendPacket(packet);
+            Bridge.SendPacket(packet);
         }
 
         private void OnPacketSend(string packet)
@@ -52,7 +52,8 @@ namespace KBot.Game
 
         public void Dispose()
         {
-            bridge.Dispose();
+            Character.Dispose();
+            Bridge.Dispose();
         }
     }
 }

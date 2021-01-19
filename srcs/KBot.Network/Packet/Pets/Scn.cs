@@ -17,6 +17,7 @@ namespace KBot.Network.Packet.Pets
     public class ScnCreator : IPacketCreator
     {
         public string Header { get; } = "sc_n";
+        public PacketType PacketType { get; } = PacketType.Received;
         
         public IPacket Create(string[] content)
         {

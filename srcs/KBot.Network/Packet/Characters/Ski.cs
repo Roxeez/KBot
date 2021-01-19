@@ -12,6 +12,7 @@ namespace KBot.Network.Packet.Characters
     public class SkiCreator : IPacketCreator
     {
         public string Header { get; } = "ski";
+        public PacketType PacketType { get; } = PacketType.Received;
         
         public IPacket Create(string[] content)
         {

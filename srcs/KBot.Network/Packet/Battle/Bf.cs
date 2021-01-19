@@ -1,4 +1,5 @@
-﻿using KBot.Common.Extension;
+using KBot.Common.Extension;
+using KBot.Common.Logging;
 using KBot.Game.Enum;
 
 namespace KBot.Network.Packet.Battle
@@ -17,7 +18,8 @@ namespace KBot.Network.Packet.Battle
     public class BfCreator : IPacketCreator
     {
         public string Header { get; } = "bf";
-        
+        public PacketType PacketType { get; } = PacketType.Received;
+
         public IPacket Create(string[] content)
         {
             string[] data = content[2].Split('.');

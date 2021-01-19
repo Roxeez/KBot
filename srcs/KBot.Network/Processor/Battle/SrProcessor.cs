@@ -17,7 +17,7 @@ namespace KBot.Network.Processor.Battle
                 return;
             }
 
-            skill.IsOnCooldown = false;
+            // skill.IsOnCooldown = false;
         }
     }
 }

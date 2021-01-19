@@ -36,9 +36,6 @@
     <ClCompile Include="CharacterBridge.cpp">
       <Filter>Fichiers sources\Bridge</Filter>
     </ClCompile>
-    <ClCompile Include="LoggerBridge.cpp">
-      <Filter>Fichiers sources\Bridge</Filter>
-    </ClCompile>
     <ClCompile Include="NetworkBridge.cpp">
       <Filter>Fichiers sources\Bridge</Filter>
     </ClCompile>
@@ -48,22 +45,22 @@
     <ClCompile Include="Character.cpp">
       <Filter>Fichiers sources\Unmanaged</Filter>
     </ClCompile>
-    <ClCompile Include="Logger.cpp">
-      <Filter>Fichiers sources\Unmanaged</Filter>
-    </ClCompile>
     <ClCompile Include="Network.cpp">
       <Filter>Fichiers sources\Unmanaged</Filter>
+    </ClCompile>
+    <ClCompile Include="Pet.cpp">
+      <Filter>Fichiers sources\Unmanaged</Filter>
+    </ClCompile>
+    <ClCompile Include="PetBridge.cpp">
+      <Filter>Fichiers sources\Bridge</Filter>
+    </ClCompile>
+    <ClCompile Include="NtString.cpp">
+      <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
       <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="NostaleString.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="LoggerBridge.h">
-      <Filter>Fichiers d%27en-tête\Bridge</Filter>
     </ClInclude>
     <ClInclude Include="CharacterBridge.h">
       <Filter>Fichiers d%27en-tête\Bridge</Filter>
@@ -74,11 +71,17 @@
     <ClInclude Include="Character.h">
       <Filter>Fichiers d%27en-tête\Unmanaged</Filter>
     </ClInclude>
-    <ClInclude Include="Logger.h">
-      <Filter>Fichiers d%27en-tête\Unmanaged</Filter>
-    </ClInclude>
     <ClInclude Include="Network.h">
       <Filter>Fichiers d%27en-tête\Unmanaged</Filter>
+    </ClInclude>
+    <ClInclude Include="Pet.h">
+      <Filter>Fichiers d%27en-tête\Unmanaged</Filter>
+    </ClInclude>
+    <ClInclude Include="PetBridge.h">
+      <Filter>Fichiers d%27en-tête\Bridge</Filter>
+    </ClInclude>
+    <ClInclude Include="NtString.h">
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

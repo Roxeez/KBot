@@ -12,11 +12,49 @@ namespace KBot.Game.Pets
         public bool IsTeamMember { get; set; }
         public string Name { get; set; }
         public bool IsSummonable { get; set; }
-        
-        
+
+
         public bool Equals(OwnedPet other)
         {
-            return other != null && other.Id == Id;
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            return Id == other.Id && EntityId == other.EntityId;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != this.GetType())
+            {
+                return false;
+            }
+
+            return Equals((OwnedPet)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (Id * 397) ^ EntityId.GetHashCode();
+            }
         }
     }
 }

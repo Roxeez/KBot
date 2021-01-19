@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.IO;
 using Newtonsoft.Json;
 
@@ -20,6 +24,16 @@ namespace KBot.Common
         public bool HasFile(string name)
         {
             return File.Exists(Path.Combine(folder, name));
+        }
+
+        public bool HasDirectory(string name)
+        {
+            return Directory.Exists(Path.Combine(folder, name));
+        }
+
+        public IEnumerable<string> GetFiles(string path)
+        {
+            return Directory.GetFiles(Path.Combine(folder, path));
         }
 
         public void Delete(string name)
@@ -52,6 +66,32 @@ namespace KBot.Common
             using (TextReader stream = new StreamReader(File.OpenRead(path)))
             {
                 return serializer.Deserialize(stream, typeof(T)) as T;
+            }
+        }
+
+        public Bitmap LoadBitmap(string name)
+        {
+            return new Bitmap(Path.Combine(folder, name));
+        }
+
+        public void SaveBitmap(string name, Bitmap bitmap)
+        {
+            string path = Path.Combine(folder, name);
+            string parent = Directory.GetParent(path).FullName;
+            
+            if (!Directory.Exists(parent))
+            {
+                Directory.CreateDirectory(parent);
+            }
+            
+            using (var graphics = Graphics.FromImage(bitmap))
+            {
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.InterpolationMode = InterpolationMode.HighQualityBilinear;
+                graphics.CompositingQuality = CompositingQuality.HighQuality;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                        
+                bitmap.Save(path, ImageFormat.Png);
             }
         }
 

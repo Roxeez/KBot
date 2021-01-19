@@ -1,4 +1,5 @@
-﻿using KBot.Game.Entities;
+using KBot.Common.Logging;
+using KBot.Game.Entities;
 using KBot.Interop;
 
 namespace KBot.Game.Pets
@@ -35,7 +36,7 @@ namespace KBot.Game.Pets
         
         public LivingEntity Entity { get; }
 
-        private readonly CharacterBridge bridge = new CharacterBridge();
+        // private static readonly PetBridge Bridge = new PetBridge();
         
         public Partner(OwnedPartner partner, LivingEntity entity)
         {
@@ -45,12 +46,7 @@ namespace KBot.Game.Pets
 
         public void Walk(Position position)
         {
-            if (!Entity.Map.IsWalkable(position))
-            {
-                return;
-            }
-            
-            bridge.PetWalk(position.X, position.Y);
+
         }
     }
 }

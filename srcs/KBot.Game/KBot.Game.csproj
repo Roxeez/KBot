@@ -42,6 +42,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="mscorlib" />
+    <Reference Include="PresentationCore" />
     <Reference Include="PropertyChanged, Version=3.3.1.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd">
       <HintPath>..\..\packages\PropertyChanged.Fody.3.3.1\lib\net40\PropertyChanged.dll</HintPath>
       <Private>True</Private>
@@ -49,7 +50,9 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Battle\Buff.cs" />
@@ -76,12 +79,13 @@
     <Compile Include="Enum\SkillTarget.cs" />
     <Compile Include="Enum\SkillType.cs" />
     <Compile Include="Extension\CharacterExtensions.cs" />
-    <Compile Include="Extension\EntityExtensions.cs" />
     <Compile Include="Extension\InventoryExtensions.cs" />
+    <Compile Include="Extension\ItemExtensions.cs" />
     <Compile Include="Extension\MapExtensions.cs" />
     <Compile Include="Extension\PartnerExtensions.cs" />
     <Compile Include="Extension\PetExtensions.cs" />
     <Compile Include="Extension\ServiceCollectionExtensions.cs" />
+    <Compile Include="Extension\SkillExtensions.cs" />
     <Compile Include="GameSession.cs" />
     <Compile Include="Inventories\Inventory.cs" />
     <Compile Include="Inventories\InventoryItem.cs" />

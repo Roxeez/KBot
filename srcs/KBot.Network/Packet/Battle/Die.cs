@@ -12,6 +12,7 @@ namespace KBot.Network.Packet.Battle
     public class DieCreator : IPacketCreator
     {
         public string Header { get; } = "die";
+        public PacketType PacketType { get; } = PacketType.Received;
         
         public IPacket Create(string[] content)
         {

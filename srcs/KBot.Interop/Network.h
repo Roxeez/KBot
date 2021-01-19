@@ -11,9 +11,9 @@ class Network
 private:
 	static Network* instance;
 
-	DWORD recv;
-	DWORD send;
-	DWORD caller;
+	DWORD _recv;
+	DWORD _send;
+	DWORD _caller;
 
 	PacketCallback sendCallback;
 	PacketCallback recvCallback;

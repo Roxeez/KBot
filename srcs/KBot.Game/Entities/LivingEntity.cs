@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using JetBrains.Annotations;
-using KBot.Common.Collection;
 using KBot.Game.Battle;
 using KBot.Game.Enum;
 
@@ -31,11 +31,14 @@ namespace KBot.Game.Entities
         /// </summary>
         public int Speed { get; set; }
         
+        public bool CantAttack { get; set; }
+        public bool CantMove { get; set; }
+        
         /// <summary>
         /// Contains all buffs of this entity
         /// </summary>
         [NotNull]
-        public ObservableSet<Buff> Buffs { get; }
+        public HashSet<Buff> Buffs { get; }
 
         protected LivingEntity(long id, EntityType type, string name) : base(id, type, name)
         {
@@ -44,7 +47,7 @@ namespace KBot.Game.Entities
                 throw new InvalidOperationException("Living entity can't be of type MapObject");
             }
             
-            Buffs = new ObservableSet<Buff>();
+            Buffs = new HashSet<Buff>();
         }
     }
 }

@@ -41,9 +41,16 @@
           <HintPath>..\..\packages\DotNetZip.1.15.0\lib\net40\DotNetZip.dll</HintPath>
           <Private>True</Private>
         </Reference>
+        <Reference Include="Microsoft.CSharp" />
+        <Reference Include="PresentationFramework" />
+        <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10">
+          <HintPath>..\..\packages\Serilog.2.10.0\lib\net46\Serilog.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
         <Reference Include="System" />
         <Reference Include="System.Core" />
         <Reference Include="System.Data" />
+        <Reference Include="System.Drawing" />
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
@@ -58,6 +65,7 @@
         <Compile Include="Processor\Text\GtdProcessor.cs" />
         <Compile Include="Processor\Text\LangProcessor.cs" />
         <Compile Include="Processor\ZlibFileProcessor.cs" />
+        <Compile Include="Processor\Zlib\IpProcessor.cs" />
         <Compile Include="Processor\Zlib\TcProcessor.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />

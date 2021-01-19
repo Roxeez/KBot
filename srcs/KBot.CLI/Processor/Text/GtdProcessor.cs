@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -42,6 +42,8 @@ namespace KBot.CLI.Processor.Text
             IEnumerable<TextRegion> monsterRegions = monsterContent.GetRegions("VNUM");
             foreach (TextRegion region in monsterRegions)
             {
+                TextLine zSkillLine = region.GetLine("ZSKILL");
+
                 int modelId = region.GetLine("VNUM").GetValue<int>(1);
                 int level = region.GetLine("LEVEL").GetValue<int>(1);
                 string nameKey = region.GetLine("NAME").GetValue(1);
@@ -49,7 +51,10 @@ namespace KBot.CLI.Processor.Text
                 monsters[modelId] = new MonsterData
                 {
                     NameKey = nameKey,
-                    Level = level
+                    Level = level,
+                    BasicAttackRange = zSkillLine.GetValue<int>(2),
+                    BasicAttackCastTime = zSkillLine.GetValue<int>(4),
+                    BasicAttackCooldown = zSkillLine.GetValue<int>(5),
                 };
             }
             
@@ -65,12 +70,18 @@ namespace KBot.CLI.Processor.Text
             IEnumerable<TextRegion> itemRegions = itemContent.GetRegions("VNUM");
             foreach (TextRegion region in itemRegions)
             {
+                TextLine indexLine = region.GetLine("INDEX");
+                
                 int gameKey = region.GetLine("VNUM").GetValue<int>(1);
                 string nameKey = region.GetLine("NAME").GetValue(1);
-
+                
                 items[gameKey] = new ItemData
                 {
-                    NameKey = nameKey
+                    NameKey = nameKey,
+                    Icon = indexLine.GetValue<int>(5),
+                    InventoryType = indexLine.GetValue<int>(1),
+                    Type = indexLine.GetValue<int>(2),
+                    SubType = indexLine.GetValue<int>(3)
                 };
             }
             
@@ -91,6 +102,8 @@ namespace KBot.CLI.Processor.Text
                 TextLine typeLine = region.GetLine("TYPE");
                 TextLine dataLine = region.GetLine("DATA");
                 TextLine targetLine = region.GetLine("TARGET");
+                TextLine costLine = region.GetLine("COST");
+                TextLine effectLine = region.GetLine("EFFECT");
 
                 int id = vnumLine.GetValue<int>(1);
 
@@ -106,7 +119,9 @@ namespace KBot.CLI.Processor.Text
                     HitType = targetLine.GetValue<int>(2),
                     Range = targetLine.GetValue<short>(3),
                     ZoneRange = targetLine.GetValue<short>(4),
-                    Type = targetLine.GetValue<int>(5)
+                    Type = targetLine.GetValue<int>(5),
+                    IsCombo = costLine.GetValue<int>(3) == 999,
+                    Icon = effectLine.GetValue<int>(1)
                 };
             }
             

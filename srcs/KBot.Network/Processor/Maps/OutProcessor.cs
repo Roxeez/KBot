@@ -1,5 +1,7 @@
 ﻿using System;
 using KBot.Common.Logging;
+using KBot.Event;
+using KBot.Event.Maps;
 using KBot.Game;
 using KBot.Game.Entities;
 using KBot.Game.Enum;
@@ -11,29 +13,39 @@ namespace KBot.Network.Processor.Maps
 {
     public class OutProcessor : PacketProcessor<Out>
     {
+        private readonly EventPipeline eventPipeline;
+
+        public OutProcessor(EventPipeline eventPipeline)
+        {
+            this.eventPipeline = eventPipeline;
+        }
+
         protected override void Process(GameSession session, Out packet)
         {
-            Character character = session.Character;
             Map map = session.Character.Map;
-            
-            switch (packet.EntityType)
+            Entity entity = map.GetEntity(packet.EntityType, packet.EntityId);
+
+            if (entity == null)
             {
-                case EntityType.Monster:
-                    map.Monsters.Remove(packet.EntityId);
-                    break;
-                case EntityType.Npc:
-                    map.Npcs.Remove(packet.EntityId);
-                    break;
-                case EntityType.Player:
-                    map.Players.Remove(packet.EntityId);
-                    break;
-                case EntityType.MapObject:
-                    map.MapObjects.Remove(packet.EntityId);
-                    break;
-                default:
-                    return;
+                return;
             }
 
+            if (session.Character.Pet != null)
+            {
+                if (session.Character.Pet.Entity.Equals(entity))
+                {
+                    session.Character.Pet = null;
+                    Log.Debug("Pet is dead, removing it");
+                }
+            }
+            
+            map.RemoveEntity(entity);
+
+            eventPipeline.Process(session, new EntityLeaveEvent
+            {
+                Entity = entity
+            });
+            
             Log.Debug($"Entity {packet.EntityType} with ID {packet.EntityId} removed from map");
         }
     }

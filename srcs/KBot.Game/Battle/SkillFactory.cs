@@ -1,4 +1,8 @@
-﻿using KBot.Data;
+﻿using System;
+using System.Drawing;
+using System.Windows.Media.Imaging;
+using KBot.Common.Extension;
+using KBot.Data;
 using KBot.Data.Translation;
 using KBot.Game.Enum;
 
@@ -18,7 +22,9 @@ namespace KBot.Game.Battle
         public Skill CreateSkill(int skillId)
         {
             SkillData data = database.GetSkillData(skillId);
+            
             string name = languageService.GetTranslation(TranslationCategory.Skill, data.NameKey);
+            Bitmap icon = database.GetImage(ImageType.Icon, data.Icon);
             
             return new Skill
             {
@@ -27,14 +33,16 @@ namespace KBot.Game.Battle
                 Cooldown = data.Cooldown,
                 CastTime = data.CastTime,
                 MpCost = data.MpCost,
-                IsOnCooldown = false,
+                LastUse = DateTime.MinValue,
                 Name = name,
                 ZoneRange = data.ZoneRange,
                 Range = data.Range,
                 Category = (SkillCategory)data.Category,
                 Type = (SkillType)data.Type,
                 HitType = (HitType)data.HitType,
-                Target = (SkillTarget)data.Target
+                Target = (SkillTarget)data.Target,
+                IsCombo = data.IsCombo,
+                Icon = icon.ToBitmapSource()
             };
         }
     }

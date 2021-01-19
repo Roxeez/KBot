@@ -32,6 +32,7 @@ namespace KBot.CLI
         {
             new GtdProcessor(FileManager),
             new TcProcessor(FileManager),
+            new IpProcessor(FileManager)
         };
 
         static Program()

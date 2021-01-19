@@ -1,5 +1,8 @@
-﻿using System.Linq;
+using System;
+using System.Linq;
 using KBot.Common.Logging;
+using KBot.Event;
+using KBot.Event.Battle;
 using KBot.Game;
 using KBot.Game.Battle;
 using KBot.Game.Entities;
@@ -11,21 +14,24 @@ namespace KBot.Network.Processor.Battle
     public class BfProcessor : PacketProcessor<Bf>
     {
         private readonly BuffFactory buffFactory;
+        private readonly EventPipeline eventPipeline;
 
-        public BfProcessor(BuffFactory buffFactory)
+        public BfProcessor(BuffFactory buffFactory, EventPipeline eventPipeline)
         {
             this.buffFactory = buffFactory;
+            this.eventPipeline = eventPipeline;
         }
         
         protected override void Process(GameSession session, Bf packet)
         {
             LivingEntity entity = session.Character.Map.GetEntity<LivingEntity>(packet.EntityType, packet.EntityId);
+
             if (entity == null)
             {
                 Log.Warning($"Can't found entity {packet.EntityType} with ID {packet.EntityId} to remove buff {packet.BuffId}");
                 return;
             }
-            
+
             if (packet.Duration == 0)
             {
                 Buff existing = entity.Buffs.FirstOrDefault(x => x.Id == packet.BuffId);
@@ -34,10 +40,16 @@ namespace KBot.Network.Processor.Battle
                     entity.Buffs.Remove(existing);
                     Log.Debug($"Buff {existing.Id} removed from {entity.EntityType} with ID {entity.Id}");
                 }
+                
+                eventPipeline.Process(session, new BuffRemovedEvent
+                {
+                    Entity = entity,
+                    Buff = existing
+                });
             }
             else
             {
-                Buff buff = buffFactory.CreateBuff(packet.BuffId);
+                Buff buff = buffFactory.CreateBuff(packet.BuffId, packet.Duration);
                 Buff similarBuff = entity.Buffs.FirstOrDefault(x => x.GroupId == buff.GroupId);
 
                 if (similarBuff != null)

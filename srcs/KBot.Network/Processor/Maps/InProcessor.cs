@@ -1,5 +1,7 @@
 ﻿using System.Linq;
 using KBot.Common.Logging;
+using KBot.Event;
+using KBot.Event.Maps;
 using KBot.Game;
 using KBot.Game.Entities;
 using KBot.Game.Enum;
@@ -13,16 +15,19 @@ namespace KBot.Network.Processor.Maps
     public class InProcessor : PacketProcessor<In>
     {
         private readonly EntityFactory entityFactory;
+        private readonly EventPipeline eventPipeline;
 
-        public InProcessor(EntityFactory entityFactory)
+        public InProcessor(EntityFactory entityFactory, EventPipeline eventPipeline)
         {
             this.entityFactory = entityFactory;
+            this.eventPipeline = eventPipeline;
         }
 
         protected override void Process(GameSession session, In packet)
         {
             Map map = session.Character.Map;
-
+            
+            Entity entity;
             switch (packet.EntityType)
             {
                 case EntityType.Monster:
@@ -34,6 +39,7 @@ namespace KBot.Network.Processor.Maps
                     monster.Map = map;
                     
                     monster.Map.Monsters[monster.Id] = monster;
+                    entity = monster;
                     break;
                 
                 case EntityType.Npc:
@@ -45,6 +51,13 @@ namespace KBot.Network.Processor.Maps
                     npc.Map = map;
 
                     npc.Map.Npcs[npc.Id] = npc;
+                    entity = npc;
+
+                    OwnedPet pet = session.Character.Pets.FirstOrDefault(x => x.EntityId == entity.Id && x.IsTeamMember);
+                    if (pet != null)
+                    {
+                        session.Character.Pet = new Pet(session.Character, pet, npc);
+                    }
                     break;
                 
                 case EntityType.MapObject:
@@ -60,6 +73,7 @@ namespace KBot.Network.Processor.Maps
                     mapObject.Map = map;
 
                     mapObject.Map.MapObjects[mapObject.Id] = mapObject;
+                    entity = mapObject;
                     break;
                 
                 case EntityType.Player:
@@ -76,12 +90,19 @@ namespace KBot.Network.Processor.Maps
                     };
 
                     player.Map.Players[player.Id] = player;
+                    entity = player;
                     break;
                 default:
                     return;
             }
+
+            eventPipeline.Process(session, new EntityJoinEvent
+            {
+                Entity = entity,
+                Map = map
+            });
             
-            Log.Debug($"Entity {packet.EntityType} with ID {packet.EntityId} added to map.");
+            Log.Trace($"Entity {packet.EntityType} with ID {packet.EntityId} added to map.");
         }
     }
 }

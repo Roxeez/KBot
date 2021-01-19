@@ -14,5 +14,10 @@ namespace KBot.Game.Inventories
             InventoryType = inventoryType;
             Slot = slot;
         }
+
+        public override string ToString()
+        {
+            return $"[{Slot + 1}] - {Stack}";
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace KBot.Game
 {
@@ -24,14 +24,6 @@ namespace KBot.Game
             int max = Math.Max(x, y);
 
             return (int)(min * Sqrt + max - min);
-        }
-        
-        public bool IsInRange(Position position, int range)
-        {
-            int dx = Math.Abs(X - position.X);
-            int dy = Math.Abs(Y - position.Y);
-            
-            return dx <= range && dy <= range && dx + dy <= range + range / 2;
         }
 
         public bool IsBetween(Position firstPoint, Position secondPoint)

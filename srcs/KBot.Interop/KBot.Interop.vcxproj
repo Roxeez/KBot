@@ -127,11 +127,12 @@
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="CharacterBridge.cpp" />
-    <ClCompile Include="Logger.cpp" />
-    <ClCompile Include="LoggerBridge.cpp" />
     <ClCompile Include="Module.cpp" />
     <ClCompile Include="NetworkBridge.cpp" />
     <ClCompile Include="Network.cpp" />
+    <ClCompile Include="NtString.cpp" />
+    <ClCompile Include="Pet.cpp" />
+    <ClCompile Include="PetBridge.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -140,13 +141,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CharacterBridge.h" />
-    <ClInclude Include="Logger.h" />
-    <ClInclude Include="LoggerBridge.h" />
     <ClInclude Include="Module.h" />
     <ClInclude Include="NetworkBridge.h" />
-    <ClInclude Include="NostaleString.h" />
+    <ClInclude Include="NtString.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="Network.h" />
+    <ClInclude Include="Pet.h" />
+    <ClInclude Include="PetBridge.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

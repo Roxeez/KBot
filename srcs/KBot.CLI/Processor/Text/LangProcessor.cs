@@ -30,7 +30,7 @@ namespace KBot.CLI.Processor.Text
             TextFile item = files.First(x => x.Name.Contains("Item"));
             TextFile skill = files.First(x => x.Name.Contains("Skill"));
             TextFile map = files.First(x => x.Name.Contains("MapIDData"));
-            TextFile card = files.First(x => x.Name.Contains("Card"));
+            TextFile card = files.First(x => x.Name.Contains("_Card"));
             
             Log.Information("Generating monster translations");
             TextContent monsterContent = TextReader.FromString(Encoding.Default.GetString(monster.Content))

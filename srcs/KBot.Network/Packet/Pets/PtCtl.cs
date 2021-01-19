@@ -21,6 +21,7 @@ namespace KBot.Network.Packet.Pets
     public class PtCtlCreator : IPacketCreator
     {
         public string Header { get; } = "ptctl";
+        public PacketType PacketType { get; } = PacketType.Received;
         
         public IPacket Create(string[] content)
         {

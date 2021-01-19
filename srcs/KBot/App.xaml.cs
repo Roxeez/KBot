@@ -1,15 +1,17 @@
-﻿using System.Windows;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using System.Windows.Data;
 using KBot.Common;
 using KBot.Common.Logging;
+using KBot.Context;
+using KBot.Context.Window;
 using KBot.Data;
 using KBot.Data.Translation;
 using KBot.Game;
-using KBot.Game.Enum;
-using KBot.Game.Extension;
 using KBot.Network;
 using KBot.Network.Packet;
-using KBot.Window;
-using KBot.Window.Context;
+using KBot.UI.Window;
 
 namespace KBot
 {
@@ -21,22 +23,23 @@ namespace KBot
         private readonly LanguageService languageService;
         private readonly Database database;
 
+        private readonly IEnumerable<ITabContext> contexts;
+
         private const Language SelectedLanguage = Language.UK;
 
-        public App(NetworkManager networkManager, PacketFactory packetFactory, LanguageService languageService, Database database)
+        public App(GameSession session, NetworkManager networkManager, PacketFactory packetFactory, LanguageService languageService, Database database, IEnumerable<ITabContext> contexts)
         {
-            session = new GameSession();
-            
+            this.session = session;
             this.networkManager = networkManager;
             this.packetFactory = packetFactory;
             this.languageService = languageService;
             this.database = database;
+            this.contexts = contexts;
         }
         
         protected override void OnStartup(StartupEventArgs e)
         {
             Log.Information($"Starting application for session {session.Id}");
-
             if (!database.CanBeLoaded())
             {
                 MessageBox.Show("Missing some database files, please execute KBot.CLI.exe");
@@ -57,7 +60,7 @@ namespace KBot
             
             session.PacketReceived += packet =>
             {
-                IPacket typedPacket = packetFactory.CreateTypedPacket(packet);
+                IPacket typedPacket = packetFactory.CreateTypedPacket(packet.Trim(), PacketType.Received);
                 if (typedPacket == null)
                 {
                     return;
@@ -68,7 +71,7 @@ namespace KBot
 
             session.PacketSend += packet =>
             {
-                IPacket typedPacket = packetFactory.CreateTypedPacket(packet);
+                IPacket typedPacket = packetFactory.CreateTypedPacket(packet.Trim(), PacketType.Send);
                 if (typedPacket == null)
                 {
                     return;
@@ -79,7 +82,7 @@ namespace KBot
 
             var window = new MainWindow
             {
-                DataContext = new MainWindowContext(session)
+                DataContext = new MainWindowContext(contexts)
             };
 
             Log.Debug("Showing main window");

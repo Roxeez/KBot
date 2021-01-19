@@ -12,6 +12,7 @@ namespace KBot.Network.Packet.Characters
     public class WalkCreator : IPacketCreator
     {
         public string Header { get; } = "walk";
+        public PacketType PacketType { get; } = PacketType.Send;
         
         public IPacket Create(string[] content)
         {

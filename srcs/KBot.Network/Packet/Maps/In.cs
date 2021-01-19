@@ -48,6 +48,7 @@ namespace KBot.Network.Packet.Maps
     public class InCreator : IPacketCreator
     {
         public string Header { get; } = "in";
+        public PacketType PacketType { get; } = PacketType.Received;
         
         public IPacket Create(string[] content)
         {

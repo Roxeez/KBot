@@ -4,18 +4,27 @@
 class Character
 {
 private:
-	static Character* instance;
+    Character();
+    static Character* instance;
 
-	DWORD walkObj;
-	DWORD walkFunction;
+	DWORD object;
+	DWORD function;
+    DWORD* positionObject;
 
-    DWORD petWalkObj;
-    DWORD petWalkFunction;
-
-	Character();
 public:
 	void Walk(short x, short y);
-    void PetWalk(short x, short y);
-	static Character* GetInstance();
+
+    static Character* GetInstance()
+    {
+        if (instance == 0)
+        {
+            instance = new Character();
+        }
+
+        return instance;
+    }
+
+    short GetPositionX();
+    short GetPositionY();
 };
 

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using KBot.Game.Entities;
 using KBot.Game.Enum;
@@ -17,16 +18,16 @@ namespace KBot.Game.Extension
             switch (entity.EntityType)
             {
                 case EntityType.Monster:
-                    map.Monsters.Remove(entity.Id);
+                    map.Monsters.TryRemove(entity.Id, out Monster m);
                     break;
                 case EntityType.Npc:
-                    map.Npcs.Remove(entity.Id);
+                    map.Npcs.TryRemove(entity.Id, out Npc n);
                     break;
                 case EntityType.Player:
-                    map.Players.Remove(entity.Id);
+                    map.Players.TryRemove(entity.Id, out Player p);
                     break;
                 case EntityType.MapObject:
-                    map.MapObjects.Remove(entity.Id);
+                    map.MapObjects.TryRemove(entity.Id, out MapObject mo);
                     break;
                 default:
                     return;
@@ -37,5 +38,7 @@ namespace KBot.Game.Extension
         {
             return map.Entities.Any(x => x.EntityType == entityType && x.Id == entityId);
         }
+
+
     }
 }

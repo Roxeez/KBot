@@ -1,5 +1,4 @@
 #include "CharacterBridge.h"
-#include "Character.h"
 
 namespace KBot
 {
@@ -7,12 +6,17 @@ namespace KBot
 	{
 		void CharacterBridge::Walk(short x, short y)
 		{
-			Character::GetInstance()->Walk(x, y);
+            Character::GetInstance()->Walk(x, y);
 		}
 
-        void CharacterBridge::PetWalk(short x, short y)
+        short CharacterBridge::GetPositionX()
         {
-            Character::GetInstance()->PetWalk(x, y);
+            return Character::GetInstance()->GetPositionX();
+        }
+
+        short CharacterBridge::GetPositionY()
+        {
+            return Character::GetInstance()->GetPositionY();
         }
 	};
 };

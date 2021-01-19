@@ -18,14 +18,19 @@ namespace KBot.Network.Packet.Inventories
         public int Amount { get; set; }
         public int Rarity { get; set; }
         public int Upgrade { get; set; }
+        public int Perfection { get; set; }
+        public int RuneLevel { get; set; }
     }
 
     public class InvCreator : IPacketCreator
     {
         public string Header { get; } = "inv";
+        public PacketType PacketType { get; } = PacketType.Received;
         
         public IPacket Create(string[] content)
         {
+            InventoryType type = content[0].ToEnum<InventoryType>();
+            
             var items = new List<InventorySub>();
             foreach (string value in content.Skip(1))
             {
@@ -47,7 +52,9 @@ namespace KBot.Network.Packet.Inventories
                         ModelId = values[1].ToInt(),
                         Amount = 1,
                         Rarity = values[2].ToInt(),
-                        Upgrade = values[3].ToInt()
+                        Upgrade = values[3].ToInt(),
+                        Perfection = type == InventoryType.Specialist ? values[4].ToInt()  : 0,
+                        RuneLevel = type == InventoryType.Equipment ? values[4].ToInt() : 0
                     });
                 }
             }

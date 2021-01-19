@@ -1,4 +1,7 @@
-﻿using KBot.Data;
+﻿using System.Drawing;
+using System.Windows.Media.Imaging;
+using KBot.Common.Extension;
+using KBot.Data;
 using KBot.Data.Translation;
 using KBot.Game.Enum;
 
@@ -19,8 +22,13 @@ namespace KBot.Game.Inventories
         {
             ItemData data = database.GetItemData(modelId);
             string name = languageService.GetTranslation(TranslationCategory.Item, data.NameKey);
-            
-            return new Item(modelId, name, (InventoryType)data.InventoryType);
+            Bitmap icon = database.GetImage(ImageType.Icon, data.Icon);
+
+            return new Item(modelId, name, (InventoryType)data.InventoryType, icon.ToBitmapSource())
+            {
+                Type = data.Type,
+                SubType = data.SubType
+            };
         }
     }
 }

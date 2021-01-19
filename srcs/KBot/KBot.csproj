@@ -15,6 +15,8 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -70,11 +72,24 @@
     <Reference Include="GalaSoft.MvvmLight.Platform, Version=5.4.1.0, Culture=neutral, PublicKeyToken=5f873c45e98af8a1, processorArchitecture=MSIL">
       <HintPath>..\..\packages\MvvmLightLibs.5.4.1.1\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
     </Reference>
+    <Reference Include="MaterialDesignColors, Version=1.2.7.1979, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MaterialDesignColors.1.2.7\lib\net45\MaterialDesignColors.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignExtensions, Version=3.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MaterialDesignExtensions.3.2.0\lib\net45\MaterialDesignExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=3.2.0.1979, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MaterialDesignThemes.3.2.0\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51">
       <HintPath>..\..\packages\Microsoft.Bcl.AsyncInterfaces.5.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <HintPath>..\..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\Microsoft.Expression.Interactions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Extensions.DependencyInjection, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
       <HintPath>..\..\packages\Microsoft.Extensions.DependencyInjection.5.0.0\lib\net461\Microsoft.Extensions.DependencyInjection.dll</HintPath>
       <Private>True</Private>
@@ -88,9 +103,14 @@
       <HintPath>..\..\packages\PropertyChanged.Fody.3.3.1\lib\net40\PropertyChanged.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10">
+      <HintPath>..\..\packages\Serilog.2.10.0\lib\net46\Serilog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <HintPath>..\..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
       <Private>True</Private>
@@ -99,8 +119,9 @@
       <HintPath>..\..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\MvvmLightLibs.5.4.1.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <HintPath>..\..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\System.Windows.Interactivity.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xaml">
@@ -111,8 +132,52 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Window\Context\MainWindowContext.cs" />
-    <Compile Include="Window\MainWindow.xaml.cs">
+    <Compile Include="Core\Bot.cs" />
+    <Compile Include="Collection\ObservableConcurrentCollection.cs" />
+    <Compile Include="Context\TabContextKey.cs" />
+    <Compile Include="Context\Control\FightTabContext.cs" />
+    <Compile Include="Context\Control\GeneralTabContext.cs" />
+    <Compile Include="Context\Control\ItemTabContext.cs" />
+    <Compile Include="Context\Control\PathTabContext.cs" />
+    <Compile Include="Context\ITabContext.cs" />
+    <Compile Include="Context\Window\MainWindowContext.cs" />
+    <Compile Include="Core\Configuration\ItemConfiguration.cs" />
+    <Compile Include="Core\Configuration\Profile.cs" />
+    <Compile Include="Core\Event\KillMonstersEvent.cs" />
+    <Compile Include="Core\Event\PickUpDropsEvent.cs" />
+    <Compile Include="Core\Event\Processor\EntityJoinProcessor.cs" />
+    <Compile Include="Core\Event\Processor\InventoryChangeProcessor.cs" />
+    <Compile Include="Core\Event\Processor\InventoryLoadedProcessor.cs" />
+    <Compile Include="Core\Event\Processor\KillMonstersProcessor.cs" />
+    <Compile Include="Core\Event\Processor\MapChangeProcessor.cs" />
+    <Compile Include="Core\Event\Processor\PetLoyaltyChangedProcessor.cs" />
+    <Compile Include="Core\Event\Processor\PickUpDropsProcessor.cs" />
+    <Compile Include="Core\Event\Processor\SkillUpdateProcessor.cs" />
+    <Compile Include="Core\Event\Processor\StatChangeEventProcessor.cs" />
+    <Compile Include="Core\Event\Processor\UseAmuletOfReturnProcessor.cs" />
+    <Compile Include="Core\Event\Processor\UseBuffsProcessor.cs" />
+    <Compile Include="Core\Event\Processor\UseConsumablesProcessor.cs" />
+    <Compile Include="Core\Event\Processor\WalkProcessor.cs" />
+    <Compile Include="Core\Event\Processor\WalkToWaypointProcessor.cs" />
+    <Compile Include="Core\Event\UseAmuletOfReturnEvent.cs" />
+    <Compile Include="Core\Event\UseBuffsEvent.cs" />
+    <Compile Include="Core\Event\UseConsumablesEvent.cs" />
+    <Compile Include="Core\Event\WalkToWaypointEvent.cs" />
+    <Compile Include="Core\ProfileManager.cs" />
+    <Compile Include="UI\Control\FightTab.xaml.cs">
+      <DependentUpon>FightTab.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Control\GeneralTab.xaml.cs">
+      <DependentUpon>GeneralTab.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Control\ItemTab.xaml.cs">
+      <DependentUpon>ItemTab.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Control\PathTab.xaml.cs">
+      <DependentUpon>PathTab.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Converter\BoolConverter.cs" />
+    <Compile Include="UI\Window\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -125,7 +190,22 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DllMain.cs" />
-    <Page Include="Window\MainWindow.xaml">
+    <Page Include="UI\Control\FightTab.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Control\GeneralTab.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Control\ItemTab.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Control\PathTab.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Window\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -141,6 +221,10 @@
     <ProjectReference Include="..\KBot.Data\KBot.Data.csproj">
       <Project>{c7a4775f-2d22-4c74-8749-9fe170e5063b}</Project>
       <Name>KBot.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KBot.Event\KBot.Event.csproj">
+      <Project>{e067d99c-ed71-4ea6-a68e-2addbbe163be}</Project>
+      <Name>KBot.Event</Name>
     </ProjectReference>
     <ProjectReference Include="..\KBot.Game\KBot.Game.csproj">
       <Project>{f36cb6de-21c3-4028-912a-521d3b9ee883}</Project>
@@ -164,9 +248,11 @@
     <Error Condition="!Exists('..\..\packages\Fody.6.3.0\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Fody.6.3.0\build\Fody.targets'))" />
     <Error Condition="!Exists('..\..\packages\PropertyChanged.Fody.3.3.1\build\PropertyChanged.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\PropertyChanged.Fody.3.3.1\build\PropertyChanged.Fody.props'))" />
     <Error Condition="!Exists('..\..\packages\Costura.Fody.4.1.0\build\Costura.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Costura.Fody.4.1.0\build\Costura.Fody.props'))" />
+    <Error Condition="!Exists('..\..\packages\MaterialDesignThemes.3.2.0\build\MaterialDesignThemes.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\MaterialDesignThemes.3.2.0\build\MaterialDesignThemes.targets'))" />
   </Target>
   <ImportGroup Label=".NET DllExport">
     <Import Project="$(SolutionDir)packages\DllExport.1.7.3\tools\net.r_eg.DllExport.targets" Condition="Exists($([MSBuild]::Escape('$(SolutionDir)packages\DllExport.1.7.3\tools\net.r_eg.DllExport.targets')))" Label="8337224c9ad9e356" />
+    <Import Project="..\..\packages\MaterialDesignThemes.3.2.0\build\MaterialDesignThemes.targets" Condition="Exists('..\..\packages\MaterialDesignThemes.3.2.0\build\MaterialDesignThemes.targets')" />
   </ImportGroup>
   <Target Name="DllExportRestorePkg" BeforeTargets="PrepareForBuild">
     <Error Condition="!Exists('$(SolutionDir)DllExport.bat')" Text="DllExport.bat is not found. Path: '$(SolutionDir)' - https://github.com/3F/DllExport" />

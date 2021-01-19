@@ -16,7 +16,7 @@ namespace KBot.Network.Processor.Characters
             character.Gender = packet.Gender;
             character.Job = packet.Job;
 
-            Log.Debug("Character basic information successfully set");
+            Log.Information("Character loaded successfully");
         }
     }
 }

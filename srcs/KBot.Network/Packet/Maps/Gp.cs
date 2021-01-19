@@ -15,6 +15,7 @@ namespace KBot.Network.Packet.Maps
     public class GpCreator : IPacketCreator
     {
         public string Header { get; } = "gp";
+        public PacketType PacketType { get; } = PacketType.Received;
         
         public IPacket Create(string[] content)
         {

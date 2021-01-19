@@ -49,5 +49,10 @@ namespace KBot.Game.Entities
         {
             return other != null && other.Id == Id && other.EntityType == EntityType;
         }
+
+        public override string ToString()
+        {
+            return $"{EntityType} {Id}";
+        }
     }
 }

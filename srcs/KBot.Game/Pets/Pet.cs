@@ -1,4 +1,7 @@
-﻿using KBot.Game.Entities;
+using System;
+using System.Threading;
+using KBot.Common.Logging;
+using KBot.Game.Entities;
 using KBot.Interop;
 
 namespace KBot.Game.Pets
@@ -28,30 +31,45 @@ namespace KBot.Game.Pets
             set => Entity.Name = value;
         }
 
+        public int BasicRange
+        {
+            get => Entity.BasicRange;
+        }
+
+        public int BasicCastTime
+        {
+            get => Entity.BasicCastTime;
+        }
+
+        public int BasicCooldown
+        {
+            get => Entity.BasicCooldown;
+        }
+
         public int Level
         {
             get => Entity.Level;
             set => Entity.Level = value;
         }
         
-        public LivingEntity Entity { get; }
-
-        private readonly CharacterBridge bridge = new CharacterBridge();
+        public Npc Entity { get; }
         
-        public Pet(OwnedPet pet, LivingEntity entity)
+        public Character Owner { get; }
+
+        private static readonly PetBridge Bridge = new PetBridge();
+
+        public Pet(Character character, OwnedPet pet, Npc entity)
         {
             this.pet = pet;
+            
+            Owner = character;
             Entity = entity;
         }
 
-        public void Walk(Position position)
+        public void Walk(Position destination)
         {
-            if (!Entity.Map.IsWalkable(position))
-            {
-                return;
-            }
-            
-            bridge.PetWalk(position.X, position.Y);
+            Bridge.Walk(destination.X, destination.Y);
+            Log.Debug($"Pet walking to {destination}");
         }
     }
 }

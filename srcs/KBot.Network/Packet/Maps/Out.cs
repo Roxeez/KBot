@@ -12,6 +12,7 @@ namespace KBot.Network.Packet.Maps
     public class OutCreate : IPacketCreator
     {
         public string Header { get; } = "out";
+        public PacketType PacketType { get; } = PacketType.Received;
         
         public IPacket Create(string[] content)
         {

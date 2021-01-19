@@ -8,6 +8,8 @@
     public interface IPacketCreator
     {
         string Header { get; }
+        PacketType PacketType { get; }
+        
         IPacket Create(string[] content);
     }
 }

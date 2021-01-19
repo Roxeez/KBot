@@ -15,6 +15,7 @@ namespace KBot.Network.Packet.Entities
     public class MvCreator : IPacketCreator
     {
         public string Header { get; } = "mv";
+        public PacketType PacketType { get; } = PacketType.Received;
         
         public IPacket Create(string[] content)
         {

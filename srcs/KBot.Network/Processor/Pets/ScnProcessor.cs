@@ -40,22 +40,6 @@ namespace KBot.Network.Processor.Pets
             };
             
             character.Partners.Add(partner);
-
-            if (packet.IsTeamMember)
-            {
-                LivingEntity entity = character.Map.GetEntity<LivingEntity>(EntityType.Npc, packet.EntityId);
-                if (entity == null)
-                {
-                    return;
-                }
-
-
-                character.Partner = new Partner(partner, entity)
-                {
-                    Level = partner.Level, 
-                    Name = partner.Name
-                };
-            }
         }
     }
 }

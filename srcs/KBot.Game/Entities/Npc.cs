@@ -1,4 +1,4 @@
-﻿using KBot.Game.Enum;
+using KBot.Game.Enum;
 using PropertyChanged;
 
 namespace KBot.Game.Entities
@@ -14,7 +14,11 @@ namespace KBot.Game.Entities
         /// </summary>
         public int ModelId { get; }
 
-        public Npc(long id, string name, int modelId) : base(id, EntityType.Monster, name)
+        public int BasicRange { get; set; }
+        public int BasicCastTime { get; set; }
+        public int BasicCooldown { get; set; }
+
+        public Npc(long id, string name, int modelId) : base(id, EntityType.Npc, name)
         {
             ModelId = modelId;
         }
